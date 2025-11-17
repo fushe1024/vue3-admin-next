@@ -1,2 +1,1 @@
-# 校验提交信息是否符合规范
 pnpm exec commitlint --edit "${1}"

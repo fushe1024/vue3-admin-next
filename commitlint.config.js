@@ -17,18 +17,18 @@ export default defineConfig({
 
     // 提示文案
     messages: {
-      type: "Select the type of change you're committing:\n选择提交类型:",
-      scope: 'Denote the SCOPE of this change (optional):\n选择影响范围（可选）:',
-      customScope: 'Input custom SCOPE:\n输入自定义范围:',
-      subject: 'Write a brief description:\n填写简短描述:\n',
-      body: 'Longer description (optional), use "|" to break line:\n详细描述（可选）:"|" 换行:\n',
-      breaking: 'List BREAKING CHANGES (optional):\n列出破坏性变更（可选）:\n',
-      footerPrefixSelect: 'Select ISSUES prefix:\n选择问题前缀:',
-      customFooterPrefix: 'Input ISSUES prefix:\n输入自定义前缀:',
-      footer: 'List related ISSUES, e.g. #12:\n列出关联问题:\n',
-      generatingByAI: 'Generating commit message by AI...\nAI 正在生成描述...',
-      generatedSelectByAI: 'Select an AI-generated subject:\n选择 AI 生成的标题:',
-      confirmCommit: 'Confirm commit?\n确认提交?'
+      type: "Select the type of change you're committing:", // 选择提交类型:
+      scope: 'Denote the SCOPE of this change (optional):', // 选择影响范围（可选）:
+      customScope: 'Input custom SCOPE:', // 输入自定义范围:
+      subject: 'Write a brief description:', // 填写简短描述:
+      body: 'Longer description (optional), use "|" to break line:', // 详细描述（可选）:"|" 换行:
+      breaking: 'List BREAKING CHANGES (optional):', // 列出破坏性变更（可选）:
+      footerPrefixSelect: 'Select ISSUES prefix:', // 选择问题前缀:
+      customFooterPrefix: 'Input ISSUES prefix:', // 输入自定义前缀:
+      footer: 'List related ISSUES, e.g. #12:', // 列出关联问题:
+      generatingByAI: 'Generating commit message by AI...', // 正在通过 AI 生成描述...
+      generatedSelectByAI: 'Select an AI-generated subject:', // 选择 AI 生成的标题:
+      confirmCommit: 'Confirm commit?' // 是否确认提交?
     },
 
     // 提交类型（已加入 emoji 但默认关闭）
