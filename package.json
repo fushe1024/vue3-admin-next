@@ -12,7 +12,17 @@
     "preview": "vite preview",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write src/",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "config": {
     "commitizen": {
@@ -34,6 +44,8 @@
     "eslint": "^9.37.0",
     "eslint-plugin-vue": "~10.5.0",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "prettier": "3.6.2",
     "vite": "^7.1.11",
     "vite-plugin-vue-devtools": "^8.0.3"
