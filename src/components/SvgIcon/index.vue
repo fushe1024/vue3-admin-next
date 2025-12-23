@@ -32,7 +32,9 @@ const symbolId = computed(() => `#icon-${props.name}`)
 const svgClass = computed(() => ['svg-icon', props.className])
 
 /* 统一 px 大小 */
-const pxSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size))
+const pxSize = computed(() =>
+  typeof props.size === 'number' ? `${props.size}px` : props.size
+)
 
 /* 本地 SVG 样式 */
 const localStyle = computed(() => ({
@@ -61,6 +63,8 @@ const externalStyle = computed(() => ({
 
   <!-- 外部 SVG（mask 可变色） -->
   <span v-else :class="svgClass" :style="externalStyle" />
+
+  <!-- 使用示例：<svg-icon name="user" size="20" color="#ff0000" /> -->
 </template>
 
 <style scoped>

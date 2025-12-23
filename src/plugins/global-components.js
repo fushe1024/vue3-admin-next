@@ -34,3 +34,7 @@ export default function registerGlobalComponents(app, options = {}) {
     }
   })
 }
+
+// 组件使用示例：
+// <SvgIcon name="icon-name" size="24" color="#409EFF" />
+// <svg-icon name="icon-name" size="24" color="#409EFF" />

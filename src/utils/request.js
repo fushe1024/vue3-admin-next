@@ -22,7 +22,6 @@ request.interceptors.response.use(
     // 对响应数据做点什么
     const { success, code, message, data } = response.data
 
-    // 根据success判断响应是否成功
     if (success && code === 200) {
       return data
     } else {

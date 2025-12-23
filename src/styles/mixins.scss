@@ -1,0 +1,134 @@
+/**
+ * 工具类 Mixin 集合
+ * 包含：清除浮动、自定义滚动条、相对定位、文本截断功能
+ */
+
+// ============================================
+// 清除浮动 - 解决父元素高度塌陷问题
+// ============================================
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// ============================================
+// 居中布局 - 快速创建居中元素
+// ============================================
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// ============================================
+// 自定义滚动条 - WebKit浏览器滚动条美化
+// ============================================
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+// 参数化版本 - 支持自定义样式
+@mixin scrollBar-custom($width: 6px,
+  $track-color: #d3dce6,
+  $thumb-color: #99a9bf,
+  $thumb-radius: 20px) {
+  &::-webkit-scrollbar-track-piece {
+    background: $track-color;
+  }
+
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $thumb-radius;
+  }
+}
+
+// ============================================
+// 相对定位布局助手 - 快速创建定位上下文
+// ============================================
+@mixin relative($width: 100%, $height: 100%) {
+  position: relative;
+
+  @if $width !=null {
+    width: $width;
+  }
+
+  @if $height !=null {
+    height: $height;
+  }
+}
+
+// ============================================
+// 单行文本截断 - 超出显示省略号
+// ============================================
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ============================================
+// 多行文本截断 - 限制显示行数
+// ============================================
+@mixin multiline-truncate($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ============================================
+// 使用示例
+// ============================================
+//
+// 1. 清除浮动
+// .container {
+//   @include clearfix;
+// }
+//
+// 2. 自定义滚动条（默认样式）
+// .scrollable {
+//   @include scrollBar;
+// }
+//
+// 3. 自定义滚动条（带参数）
+// .custom-scroll {
+//   @include scrollBar-custom(8px, #f0f0f0, #666, 4px);
+// }
+//
+// 4. 相对定位容器
+// .relative-container {
+//   @include relative; // 100% 宽高
+// }
+//
+// .relative-width-only {
+//   @include relative(100%, null); // 只设置宽度100%
+// }
+//
+// 5. 单行文本截断
+// .single-line {
+//   @include text-truncate;
+// }
+//
+// 6. 多行文本截断（3行）
+// .multi-line {
+//   @include multiline-truncate(3);
+// }

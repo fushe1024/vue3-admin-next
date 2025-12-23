@@ -10,7 +10,7 @@ const config = {
   useTabs: false,
   semi: false,
   singleQuote: true,
-  printWidth: 100
+  printWidth: 90
 }
 
 export default config

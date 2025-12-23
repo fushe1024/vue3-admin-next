@@ -1,3 +1,4 @@
+// 设置主题颜色
 export function setTheme(color) {
   const el = document.documentElement
 
@@ -9,11 +10,13 @@ export function setTheme(color) {
 
   setProperty('--el-color-primary-dark-2', mix(color, '#000000', 0.2))
 
+  // 设置CSS变量
   function setProperty(key, val) {
     el.style.setProperty(key, val)
   }
 }
 
+// 混合两种颜色，weight取值0-1
 function mix(color1, color2, weight) {
   function hexToRgb(hex) {
     hex = hex.replace('#', '')
