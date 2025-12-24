@@ -1,7 +1,8 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
-import { useUserStore } from '@/stores/modules/user'
+import { useUserStore } from '@/store'
+import { ElMessage } from 'element-plus'
 const userStore = useUserStore()
 
 // 是否记住密码
@@ -9,7 +10,7 @@ const isRemember = ref(false)
 
 // 登录数据
 const loginData = reactive({
-  username: import.meta.env.MODE === 'development' ? 'admin' : '',
+  username: import.meta.env.MODE === 'development' ? 'super-admin' : '',
   password: import.meta.env.MODE === 'development' ? '123456' : ''
 })
 
@@ -25,13 +26,15 @@ const rules = {
 // 表单引用
 const formRef = ref(null)
 
-// 提交表单
+// 登录提交
 const submitForm = () => {
   if (!formRef.value) return
 
-  formRef.value.validate((valid) => {
+  // 校验表单
+  formRef.value.validate(async (valid) => {
     if (valid) {
-      userStore.login(loginData)
+      await userStore.login(loginData)
+      ElMessage.success('登录成功')
     }
   })
 }

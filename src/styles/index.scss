@@ -1,7 +1,7 @@
 @use 'reset.scss'; // 重置样式
-@use 'variables' as *; // 变量
-@use 'mixins' as *; // 混合宏
-@use 'sidebar.scss'; // 侧边栏样式
+@use 'variables'; // 变量
+@use 'mixins'; // 混合宏
+// @use 'sidebar.scss'; // 侧边栏样式
 
 html,
 body {
@@ -27,9 +27,9 @@ body {
   width: 100%;
 }
 
+// 进度条颜色
 #nprogress .bar {
-  background: #4caf50 !important;
-  /* 自定义颜色 */
+  background: var(--el-color-primary);
 }
 
 *,

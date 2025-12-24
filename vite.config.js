@@ -38,7 +38,8 @@ export default ({ mode }) => {
     // configure path alias
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@layouts': fileURLToPath(new URL('./src/layouts', import.meta.url))
       }
     },
     // development server configuration

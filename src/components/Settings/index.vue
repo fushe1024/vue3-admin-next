@@ -1,19 +1,7 @@
 <script setup>
 import { Setting, CopyDocument, RefreshLeft, Moon, Sunny } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
-
-const predefineColors = [
-  '#409eff',
-  '#67c23a',
-  '#e6a23c',
-  '#f56c6c',
-  '#909399',
-  '#5d7092',
-  '#7232dd',
-  '#ff9900',
-  '#2dce89',
-  '#f5365c'
-]
+import { themeColorPresets } from '@/settings'
 
 // 默认配置
 const defaultOptions = {
@@ -37,7 +25,9 @@ const options = reactive({
 
 // 抽屉弹窗是否可见
 const visible = ref(false)
-const handleClick = () => {
+
+// 打开抽屉弹窗
+const open = () => {
   visible.value = true
 }
 
@@ -53,11 +43,16 @@ const copyConfig = () => {
 const resetDefault = () => {
   Object.assign(options, defaultOptions)
 }
+
+// 暴露方法
+defineExpose({
+  open
+})
 </script>
 
 <template>
   <!-- 配置图标 -->
-  <el-icon @click="handleClick">
+  <el-icon>
     <Setting />
   </el-icon>
 
@@ -85,7 +80,7 @@ const resetDefault = () => {
             <span class="small-text">主题颜色</span>
             <el-color-picker
               size="small"
-              :predefine="predefineColors"
+              :predefine="themeColorPresets"
               v-model="options.themeColor"
             />
           </div>
@@ -163,7 +158,6 @@ const resetDefault = () => {
         background-color: rgb(245, 247, 250);
       }
 
-      // 小文本
       .small-text {
         font-size: 12px;
       }

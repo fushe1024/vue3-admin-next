@@ -1,6 +1,6 @@
 import { defineAsyncComponent } from 'vue'
 
-export default function registerGlobalComponents(app, options = {}) {
+export function setupGlobalComponents(app, options = {}) {
   const { prefix = '', kebabCase = true } = options
 
   // 使用 Vite 的 import.meta.glob 动态导入所有组件

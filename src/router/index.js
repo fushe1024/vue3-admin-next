@@ -1,14 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
-NProgress.configure({ showSpinner: false }) // 进度条配置
 
 // 公开路由表
 const publicRoutes = [
   {
     path: '/',
-    component: () => import('@/layout/index.vue')
+    component: () => import('@/layouts/index.vue')
   },
   {
     path: '/login',
@@ -20,22 +16,15 @@ const publicRoutes = [
   }
 ]
 
+// 创建路由实例
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [...publicRoutes]
 })
 
-// 路由前置守卫
-router.beforeEach((to, from, next) => {
-  // 处理进度条
-  NProgress.start()
-  next()
-})
-
-// 路由后置守卫
-router.afterEach(() => {
-  // 处理进度条
-  NProgress.done()
-})
+// 全局注册路由
+export function setupRouter(app) {
+  app.use(router)
+}
 
 export default router

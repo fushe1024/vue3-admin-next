@@ -63,8 +63,6 @@ const externalStyle = computed(() => ({
 
   <!-- 外部 SVG（mask 可变色） -->
   <span v-else :class="svgClass" :style="externalStyle" />
-
-  <!-- 使用示例：<svg-icon name="user" size="20" color="#ff0000" /> -->
 </template>
 
 <style scoped>

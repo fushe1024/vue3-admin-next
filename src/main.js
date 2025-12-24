@@ -1,17 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
-import pinia from './stores'
-import './styles/index.scss'
+import setupPlugins from '@/plugins'
 import 'virtual:svg-icons-register'
-import registerGlobalComponents from './plugins/global-components'
 
-import './permission' // 路由权限控制
+// 全局样式
+import './styles/index.scss'
 
 const app = createApp(App)
 
-app.use(pinia)
-app.use(router)
-app.use(registerGlobalComponents) // 自动注册全局组件
+// 注册插件
+app.use(setupPlugins)
 
 app.mount('#app')

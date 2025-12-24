@@ -1,16 +1,9 @@
 @use './variables' as v; // 或 @use './variables' as *;
 
 #app {
-  // 主要内容区域
-  .main-box {
-    min-height: 100%;
-    transition: margin-left v.$sideBarDuration;
-    margin-left: v.$sideBarWidth;
-    position: relative;
-  }
 
   // 左侧 side bar
-  .sidebar-box {
+  .sidebar-wrapper {
     transition: width v.$sideBarDuration;
     width: v.$sideBarWidth !important;
     height: 100%;
@@ -18,7 +11,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1001;
+    z-index: 9;
     overflow: hidden;
 
     // 重置 element-plus 的css
@@ -79,18 +72,18 @@
       width: 100% !important;
     }
 
-    .is-active > .el-submenu__title {
+    .is-active>.el-submenu__title {
       color: v.$subMenuActiveText !important;
     }
 
-    & .nest-menu .el-submenu > .el-submenu__title,
+    & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: v.$sideBarWidth !important;
     }
   }
 
   // 隐藏 side bar
-  .hideSidebar {
+  .sidebar-wrapper {
     .sidebar-box {
       width: 54px !important;
     }
@@ -119,7 +112,7 @@
     .el-submenu {
       overflow: hidden;
 
-      & > .el-submenu__title {
+      &>.el-submenu__title {
         padding: 0 !important;
 
         .svg-icon {
@@ -138,8 +131,8 @@
 
     .el-menu--collapse {
       .el-submenu {
-        & > .el-submenu__title {
-          & > span {
+        &>.el-submenu__title {
+          &>span {
             height: 0;
             width: 0;
             overflow: hidden;
@@ -158,6 +151,7 @@
 
   // 无动画切换
   .withoutAnimation {
+
     .main-container,
     .sidebar-container {
       transition: none;
@@ -166,10 +160,11 @@
 
   // 垂直菜单样式
   .el-menu--vertical {
-    & > .el-menu {
+    &>.el-menu {
       .svg-icon {
         margin-right: 16px;
       }
+
       .sub-el-icon {
         margin-right: 12px;
         margin-left: -2px;
@@ -177,7 +172,7 @@
     }
 
     // 菜单项过长时
-    > .el-menu--popup {
+    >.el-menu--popup {
       max-height: 100vh;
       overflow-y: auto;
 
