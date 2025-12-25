@@ -4,6 +4,7 @@ import md5 from 'md5'
 import { loginApi, getUserInfoApi } from '@/api/user'
 import router from '@/router'
 import { setTimestamp } from '@/utils/auth'
+import store from '@/store'
 
 export const useUserStore = defineStore(
   'user',
@@ -67,3 +68,11 @@ export const useUserStore = defineStore(
     persist: true
   }
 )
+
+/**
+ * 在组件外部使用UserStore的钩子函数
+ * @see https://pinia.vuejs.org/core-concepts/outside-component-usage.html
+ */
+export function useUserStoreHook() {
+  return useUserStore(store)
+}

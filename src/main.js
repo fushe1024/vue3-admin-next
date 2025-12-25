@@ -3,8 +3,9 @@ import App from './App.vue'
 import setupPlugins from '@/plugins'
 import 'virtual:svg-icons-register'
 
-// 全局样式
-import './styles/index.scss'
+// 暗黑主题样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
+import '@/styles/index.scss'
 
 const app = createApp(App)
 

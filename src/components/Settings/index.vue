@@ -3,17 +3,14 @@ import { Setting, CopyDocument, RefreshLeft, Moon, Sunny } from '@element-plus/i
 import { reactive, ref } from 'vue'
 import { themeColorPresets } from '@/settings'
 
-// 默认配置
-const defaultOptions = {
-  isDark: false,
-  themeColor: '#409eff',
-  showTabs: true,
-  showLogo: true,
-  showWatermark: false,
-  sidebarColor: 'blue'
-}
+import { useSettingsStore } from '@/store'
 
-// 当前配置
+// 使用统一的颜色预设配置
+const colorPresets = themeColorPresets
+
+const settingsStore = useSettingsStore()
+
+// TODO：后期切换为从store中获取
 const options = reactive({
   isDark: false,
   themeColor: '#409eff',
@@ -41,7 +38,7 @@ const copyConfig = () => {
 
 // 重置默认
 const resetDefault = () => {
-  Object.assign(options, defaultOptions)
+  settingsStore.resetDefault()
 }
 
 // 暴露方法
@@ -62,56 +59,62 @@ defineExpose({
       <!-- 公共设置项 -->
       <div class="setting-content">
         <!-- 主题设置 -->
-        <el-divider content-position="center">主题设置</el-divider>
-        <div class="theme-setting">
-          <div>
-            <el-switch
-              v-model="options.isDark"
-              :active-icon="Moon"
-              :inactive-icon="Sunny"
-            />
-          </div>
-        </div>
-
-        <!-- 界面设置 -->
-        <el-divider content-position="center">界面设置</el-divider>
-        <div class="interface-setting">
-          <div class="interface-item">
-            <span class="small-text">主题颜色</span>
-            <el-color-picker
-              size="small"
-              :predefine="themeColorPresets"
-              v-model="options.themeColor"
-            />
-          </div>
-          <div class="interface-item">
-            <span class="small-text">显示页签</span>
-            <el-switch size="small" v-model="options.showTabs" />
-          </div>
-          <div class="interface-item">
-            <span class="small-text">显示Logo</span>
-            <el-switch size="small" v-model="options.showLogo" />
-          </div>
-          <div class="interface-item">
-            <span class="small-text">显示水印</span>
-            <el-switch size="small" v-model="options.showWatermark" />
-          </div>
-          <div class="interface-item" v-if="!options.isDark">
-            <span class="small-text">侧边栏配色</span>
+        <section>
+          <el-divider content-position="center">主题设置</el-divider>
+          <div class="theme-setting">
             <div>
-              <el-radio-group v-model="options.sidebarColor">
-                <el-radio label="blue" size="small">经典蓝</el-radio>
-                <el-radio label="white" size="small">极简白</el-radio>
-              </el-radio-group>
+              <el-switch
+                v-model="options.isDark"
+                :active-icon="Moon"
+                :inactive-icon="Sunny"
+              />
             </div>
           </div>
-        </div>
+        </section>
+
+        <!-- 界面设置 -->
+        <section>
+          <el-divider content-position="center">界面设置</el-divider>
+          <div class="interface-setting">
+            <div class="interface-item">
+              <span class="small-text">主题颜色</span>
+              <el-color-picker
+                size="small"
+                :predefine="colorPresets"
+                v-model="options.themeColor"
+              />
+            </div>
+            <div class="interface-item">
+              <span class="small-text">显示页签</span>
+              <el-switch size="small" v-model="options.showTabs" />
+            </div>
+            <div class="interface-item">
+              <span class="small-text">显示Logo</span>
+              <el-switch size="small" v-model="options.showLogo" />
+            </div>
+            <div class="interface-item">
+              <span class="small-text">显示水印</span>
+              <el-switch size="small" v-model="options.showWatermark" />
+            </div>
+            <div class="interface-item" v-show="!options.isDark">
+              <span class="small-text">侧边栏配色</span>
+              <div>
+                <el-radio-group v-model="options.sidebarColor">
+                  <el-radio label="blue" size="small">经典蓝</el-radio>
+                  <el-radio label="white" size="small">极简白</el-radio>
+                </el-radio-group>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <!-- 导航设置 -->
-        <el-divider content-position="center">导航设置</el-divider>
-        <div class="navigation-setting">
-          <span class="small-text">待开发</span>
-        </div>
+        <section>
+          <el-divider content-position="center">导航设置</el-divider>
+          <div class="navigation-setting">
+            <span class="small-text">待开发</span>
+          </div>
+        </section>
       </div>
 
       <template #footer>
@@ -140,6 +143,11 @@ defineExpose({
 
       div {
         cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: scale(1.03);
+        }
       }
     }
 
@@ -148,14 +156,13 @@ defineExpose({
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: black;
+      color: var(--el-text-color-primary);
       padding: 15px 5px;
-      border-bottom: 1px solid #e8e8e8;
-      border-radius: 8px;
-      transition: all 0.3s;
+      border-bottom: 1px solid var(--el-border-color-light);
 
       &:hover {
-        background-color: rgb(245, 247, 250);
+        background-color: var(--el-border-color-light);
+        border-radius: 8px;
       }
 
       .small-text {
@@ -181,6 +188,14 @@ defineExpose({
 
     .btn {
       width: 50%;
+      font-size: 14px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
     }
   }
 }

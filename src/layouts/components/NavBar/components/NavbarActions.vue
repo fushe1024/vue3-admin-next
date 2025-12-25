@@ -81,17 +81,37 @@ const handleSettingClick = () => {
 
   // 每个操作项
   &__item {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    min-width: 44px; /* 增加最小点击区域到44px，符合人机交互标准 */
+    min-height: 44px;
     padding: 0 13px;
     cursor: pointer;
+    text-align: center;
     transition: all 0.3s;
+
+    // 确保子元素居中
+    > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    // 确保 Element Plus 组件可以正常工作
+    :deep(.el-dropdown),
+    :deep(.el-tooltip) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
 
     // 鼠标悬停
     &:hover {
-      background-color: rgb(245, 245, 245);
+      background-color: rgba(0, 0, 0, 0.04);
       color: var(--el-color-primary);
     }
   }

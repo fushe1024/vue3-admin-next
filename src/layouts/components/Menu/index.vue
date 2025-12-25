@@ -7,7 +7,11 @@ const appStore = useAppStore()
 
 <template>
   <el-scrollbar height="100%">
-    <el-menu class="el-menu-vertical-demo" :collapse="!appStore.sidebar.opened">
+    <el-menu
+      class="el-menu"
+      :collapse="!appStore.sidebar.opened"
+      :collapse-transition="false"
+    >
       <el-menu-item index="1">
         <el-icon><HomeFilled /></el-icon>
         <template #title>首页</template>
@@ -34,4 +38,9 @@ const appStore = useAppStore()
   </el-scrollbar>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+// 自定义 menu 样式
+.el-menu {
+  border: none; // 取消边框线
+}
+</style>

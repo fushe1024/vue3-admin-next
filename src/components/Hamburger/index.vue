@@ -13,6 +13,7 @@ const handleClick = () => {
 <template>
   <div class="hamburger-wrapper">
     <svg-icon
+      class="hamburger-icon"
       :name="isActive ? 'hamburger-opened' : 'hamburger-closed'"
       @click="handleClick"
     />
@@ -23,5 +24,9 @@ const handleClick = () => {
 .hamburger-wrapper {
   cursor: pointer;
   margin-right: 15px;
+
+  .hamburger-icon {
+    fill: var(--el-text-color-primary);
+  }
 }
 </style>

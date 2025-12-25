@@ -3,7 +3,7 @@ import { Bell } from '@element-plus/icons-vue'
 </script>
 
 <template>
-  <el-dropdown>
+  <el-dropdown trigger="click">
     <el-badge :value="5" :offset="[4, 1]">
       <el-icon>
         <Bell />
@@ -22,7 +22,7 @@ import { Bell } from '@element-plus/icons-vue'
 .dropdown-content {
   width: 300px;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: var(--el-bg-color-overlay);
   border-radius: 4px;
 }
 </style>

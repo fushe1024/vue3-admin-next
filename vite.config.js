@@ -5,7 +5,14 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import __PACKAGE_JSON__ from './package.json'
 import vueDevTools from 'vite-plugin-vue-devtools'
+
+// 平台的信息
+const __APP_INFO__ = {
+  pkg: __PACKAGE_JSON__,
+  buildTimestamp: Date.now()
+}
 
 // https://vite.dev/config/
 export default ({ mode }) => {
@@ -58,6 +65,10 @@ export default ({ mode }) => {
           additionalData: `@use "@/styles/variables.scss" as *; @use "@/styles/mixins.scss" as *;`
         }
       }
+    },
+    // define global constant replacement
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
     }
   })
 }

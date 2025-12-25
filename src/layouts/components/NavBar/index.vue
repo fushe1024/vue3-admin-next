@@ -26,10 +26,9 @@ const { toggleSidebar } = appStore
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  border-bottom: 1px solid #e8e8e8;
+  background-color: var(--el-bg-color-overlay);
   padding-left: 15px;
-  height: $navbarHeight;
+  height: $navbar-height;
 
   // 左侧 - 汉堡菜单和面包屑导航
   .flex-y-center {
