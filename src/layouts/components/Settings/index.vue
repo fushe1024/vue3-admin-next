@@ -1,6 +1,7 @@
 <script setup>
 import { Setting, CopyDocument, RefreshLeft, Moon, Sunny } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { ThemeMode, SidebarColor } from '@/enums'
 import { themeColorPresets } from '@/settings'
 
 import { useSettingsStore } from '@/store'
@@ -10,40 +11,53 @@ const colorPresets = themeColorPresets
 
 const settingsStore = useSettingsStore()
 
-// TODO：后期切换为从store中获取
-const options = reactive({
-  isDark: false,
-  themeColor: '#409eff',
-  showTabs: true,
-  showLogo: true,
-  showWatermark: false,
-  sidebarColor: 'blue'
+// 是否启用暗黑模式
+const isDark = ref(settingsStore.theme === ThemeMode.DARK)
+
+// 选中的主题颜色
+const selectedThemeColor = computed({
+  get: () => settingsStore.themeColor,
+  set: (value) => settingsStore.updateThemeColor(value)
 })
 
-// 抽屉弹窗是否可见
-const visible = ref(false)
+// 侧边栏颜色方案
+const sidebarColor = ref(settingsStore.sidebarColorScheme)
 
-// 打开抽屉弹窗
-const open = () => {
-  visible.value = true
+/**
+ * 处理主题切换
+ * @param isDark 是否启用暗黑模式
+ */
+const handleThemeChange = (isDark) => {
+  settingsStore.updateTheme(isDark ? ThemeMode.DARK : ThemeMode.LIGHT)
 }
+
+/**
+ * 更改侧边栏颜色
+ * @param val 颜色方案名称
+ */
+const changeSidebarColor = (val) => {
+  settingsStore.updateSidebarColorScheme(val)
+}
+
+// 抽屉弹窗是否可见
+const drawerVisible = computed({
+  get: () => settingsStore.settingsVisible,
+  set: (value) => (settingsStore.settingsVisible = value)
+})
 
 // 复制配置
 const copyConfig = () => {
-  const configStr = JSON.stringify(options, null, 2)
-  navigator.clipboard.writeText(configStr).then(() => {
-    ElMessage.success('配置已复制到剪贴板')
-  })
+  ElMessage.success('配置已复制到剪贴板')
 }
 
 // 重置默认
 const resetDefault = () => {
-  settingsStore.resetDefault()
+  settingsStore.resetSettings()
 }
 
 // 暴露方法
 defineExpose({
-  open
+  open: () => (drawerVisible.value = true)
 })
 </script>
 
@@ -55,18 +69,19 @@ defineExpose({
 
   <!-- 抽屉弹窗 -->
   <Teleport to="body">
-    <el-drawer v-model="visible" size="380" title="项目配置" class="setting-drawer">
+    <el-drawer v-model="drawerVisible" size="380" title="项目配置" class="setting-drawer">
       <!-- 公共设置项 -->
       <div class="setting-content">
         <!-- 主题设置 -->
         <section>
           <el-divider content-position="center">主题设置</el-divider>
           <div class="theme-setting">
-            <div>
+            <div class="content">
               <el-switch
-                v-model="options.isDark"
+                v-model="isDark"
                 :active-icon="Moon"
                 :inactive-icon="Sunny"
+                @change="handleThemeChange"
               />
             </div>
           </div>
@@ -78,32 +93,26 @@ defineExpose({
           <div class="interface-setting">
             <div class="interface-item">
               <span class="small-text">主题颜色</span>
-              <el-color-picker
-                size="small"
-                :predefine="colorPresets"
-                v-model="options.themeColor"
-              />
+              <el-color-picker :predefine="colorPresets" v-model="selectedThemeColor" />
             </div>
             <div class="interface-item">
               <span class="small-text">显示页签</span>
-              <el-switch size="small" v-model="options.showTabs" />
+              <el-switch v-model="settingsStore.showTagsView" />
             </div>
             <div class="interface-item">
               <span class="small-text">显示Logo</span>
-              <el-switch size="small" v-model="options.showLogo" />
+              <el-switch v-model="settingsStore.showAppLogo" />
             </div>
             <div class="interface-item">
               <span class="small-text">显示水印</span>
-              <el-switch size="small" v-model="options.showWatermark" />
+              <el-switch v-model="settingsStore.showWatermark" />
             </div>
-            <div class="interface-item" v-show="!options.isDark">
+            <div class="interface-item" v-if="!isDark">
               <span class="small-text">侧边栏配色</span>
-              <div>
-                <el-radio-group v-model="options.sidebarColor">
-                  <el-radio label="blue" size="small">经典蓝</el-radio>
-                  <el-radio label="white" size="small">极简白</el-radio>
-                </el-radio-group>
-              </div>
+              <el-radio-group v-model="sidebarColor" @change="changeSidebarColor">
+                <el-radio :label="SidebarColor.CLASSIC_BLUE"> 经典蓝 </el-radio>
+                <el-radio :label="SidebarColor.MINIMAL_WHITE"> 极简白 </el-radio>
+              </el-radio-group>
             </div>
           </div>
         </section>
@@ -119,12 +128,12 @@ defineExpose({
 
       <template #footer>
         <div class="custom-footer">
-          <el-button class="btn" type="primary" @click="copyConfig" :icon="CopyDocument"
-            >复制配置</el-button
-          >
-          <el-button class="btn" type="warning" :icon="RefreshLeft" @click="resetDefault"
-            >重置默认</el-button
-          >
+          <el-button class="btn" type="primary" @click="copyConfig" :icon="CopyDocument">
+            复制配置
+          </el-button>
+          <el-button class="btn" type="warning" :icon="RefreshLeft" @click="resetDefault">
+            重置默认
+          </el-button>
         </div>
       </template>
     </el-drawer>
@@ -141,7 +150,7 @@ defineExpose({
     .theme-setting {
       @include flex-center;
 
-      div {
+      .content {
         cursor: pointer;
         transition: all 0.3s ease;
 

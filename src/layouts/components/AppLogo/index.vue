@@ -1,10 +1,12 @@
 <script setup>
-import { useAppStore } from '@/store'
+import { useAppStore, useSettingsStore } from '@/store'
+
 const appStore = useAppStore()
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
-  <div class="logo">
+  <div class="logo" v-if="settingsStore.showAppLogo">
     <a href="/">
       <img
         src="https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif"

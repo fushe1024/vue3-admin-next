@@ -1,39 +1,107 @@
-// 设置主题颜色
-export function setTheme(color) {
-  const el = document.documentElement
+import { ThemeMode } from '@/enums'
 
-  setProperty('--el-color-primary', color)
+// 辅助函数：将十六进制颜色转换为 RGB
+function hexToRgb(hex) {
+  const bigint = parseInt(hex.slice(1), 16)
+  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255]
+}
 
-  for (let i = 1; i <= 9; i++) {
-    setProperty(`--el-color-primary-light-${i}`, mix(color, '#ffffff', i * 0.1))
+// 辅助函数：将 RGB 转换为十六进制颜色
+function rgbToHex(r, g, b) {
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`
+}
+
+/**
+ * 加深颜色值
+ * @param {String} color 颜色值字符串
+ * @param {Number} level 加深的程度，限0-1之间
+ * @returns {String} 返回处理后的颜色值
+ */
+export function getDarkColor(color, level) {
+  const rgb = hexToRgb(color)
+  for (let i = 0; i < 3; i++) rgb[i] = Math.round(20.5 * level + rgb[i] * (1 - level))
+  return rgbToHex(rgb[0], rgb[1], rgb[2])
+}
+
+/**
+ * 变浅颜色值
+ * @param {String} color 颜色值字符串
+ * @param {Number} level 加深的程度，限0-1之间
+ * @returns {String} 返回处理后的颜色值
+ */
+export function getLightColor(color, level) {
+  const rgb = hexToRgb(color)
+  for (let i = 0; i < 3; i++) rgb[i] = Math.round(255 * level + rgb[i] * (1 - level))
+  return rgbToHex(rgb[0], rgb[1], rgb[2])
+}
+
+/**
+ * 生成主题色
+ * @param primary 主题色
+ * @param theme 主题类型
+ * @returns {Object} 返回包含主题色变体的对象
+ */
+export function generateThemeColors(primary, theme) {
+  // 初始化主题色对象，包含基础主题色
+  const colors = {
+    primary
   }
 
-  setProperty('--el-color-primary-dark-2', mix(color, '#000000', 0.2))
+  // 生成浅色变体
+  for (let i = 1; i <= 9; i++) {
+    colors[`primary-light-${i}`] =
+      theme === ThemeMode.LIGHT
+        ? `${getLightColor(primary, i / 10)}`
+        : `${getDarkColor(primary, i / 10)}`
+  }
 
-  // 设置CSS变量
-  function setProperty(key, val) {
-    el.style.setProperty(key, val)
+  // 生成深色变体
+  colors['primary-dark-2'] =
+    theme === ThemeMode.LIGHT
+      ? `${getLightColor(primary, 0.2)}`
+      : `${getDarkColor(primary, 0.3)}`
+
+  return colors
+}
+
+/**
+ * 应用主题颜色
+ * @param {*} colors 主题颜色对象
+ */
+export function applyTheme(colors) {
+  const el = document.documentElement
+
+  Object.entries(colors).forEach(([key, value]) => {
+    el.style.setProperty(`--el-color-${key}`, value)
+  })
+
+  // 确保主题色立即生效，强制重新渲染
+  requestAnimationFrame(() => {
+    // 触发样式重新计算
+    el.style.setProperty('--theme-update-trigger', Date.now().toString())
+  })
+}
+
+/**
+ * 切换暗黑模式
+ * @param isDark 是否启用暗黑模式
+ */
+export function toggleDarkMode(isDark) {
+  if (isDark) {
+    document.documentElement.classList.add(ThemeMode.DARK)
+  } else {
+    document.documentElement.classList.remove(ThemeMode.DARK)
   }
 }
 
-// 混合两种颜色，weight取值0-1
-function mix(color1, color2, weight) {
-  function hexToRgb(hex) {
-    hex = hex.replace('#', '')
-    const bigint = parseInt(hex, 16)
-    return {
-      r: (bigint >> 16) & 255,
-      g: (bigint >> 8) & 255,
-      b: bigint & 255
-    }
+/**
+ * 切换浅色主题下的侧边栏颜色方案
+ * @param isBlue 布尔值，表示是否开启深蓝色侧边栏颜色方案
+ */
+export function toggleSidebarColor(isBlue) {
+  if (isBlue) {
+    document.documentElement.classList.add('sidebar-color-blue')
+  } else {
+    document.documentElement.classList.remove('sidebar-color-blue')
   }
-
-  const c1 = hexToRgb(color1)
-  const c2 = hexToRgb(color2)
-
-  const r = Math.round(c1.r * (1 - weight) + c2.r * weight)
-  const g = Math.round(c1.g * (1 - weight) + c2.g * weight)
-  const b = Math.round(c1.b * (1 - weight) + c2.b * weight)
-
-  return `rgb(${r}, ${g}, ${b})`
 }

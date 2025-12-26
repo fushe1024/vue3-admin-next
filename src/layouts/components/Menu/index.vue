@@ -11,6 +11,7 @@ const appStore = useAppStore()
       class="el-menu"
       :collapse="!appStore.sidebar.opened"
       :collapse-transition="false"
+      default-active="1"
     >
       <el-menu-item index="1">
         <el-icon><HomeFilled /></el-icon>

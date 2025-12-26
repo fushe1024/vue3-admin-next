@@ -1,10 +1,11 @@
 <script setup>
-import { useUserStore } from '@/store'
-import { ref } from 'vue'
+import Settings from '@/layouts/components/Settings/index.vue'
+import { useUserStore, useSettingsStore } from '@/store'
 
 const userStore = useUserStore()
+const settingsStore = useSettingsStore()
 
-// 下拉菜单点击
+// 下拉菜单
 const handleCommand = (command) => {
   if (command === 'logout') {
     userStore.logout()
@@ -15,10 +16,9 @@ const handleCommand = (command) => {
   }
 }
 
-// 点击项目配置
-const settingComponent = ref(null)
+// 打开项目配置抽屉
 const handleSettingClick = () => {
-  settingComponent.value?.open()
+  settingsStore.showSettingsPanel()
 }
 </script>
 
@@ -68,7 +68,7 @@ const handleSettingClick = () => {
 
     <!-- 系统设置 -->
     <div class="navbar-actions__item" @click="handleSettingClick">
-      <Settings ref="settingComponent" />
+      <Settings />
     </div>
   </div>
 </template>
@@ -111,7 +111,7 @@ const handleSettingClick = () => {
 
     // 鼠标悬停
     &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: $navbar-hover;
       color: var(--el-color-primary);
     }
   }

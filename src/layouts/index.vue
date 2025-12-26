@@ -3,35 +3,33 @@ import NavBar from './components/NavBar/index.vue'
 import SideBar from './components/SideBar/index.vue'
 import AppMain from './components/AppMain/index.vue'
 import TagsView from './components/TagsView/index.vue'
-import { ref } from 'vue'
 
-import { useAppStore } from '@/store'
+import { useAppStore, useSettingsStore } from '@/store'
 const appStore = useAppStore()
-
-const showTabs = ref(true)
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
   <div class="layout-wrapper">
     <!-- 侧边栏 -->
-    <side-bar></side-bar>
+    <side-bar />
 
     <!-- 右侧区域  -->
     <div
       class="layout-main"
       :class="{
         'layout-main-collapsed': !appStore.sidebar.opened,
-        hasTagsView: showTabs
+        hasTagsView: settingsStore.showTagsView
       }"
     >
       <!-- 导航栏 -->
-      <nav-bar class="flex-header"></nav-bar>
+      <nav-bar class="flex-header" />
 
       <!-- 页签 -->
-      <tags-view v-if="showTabs"></tags-view>
+      <tags-view v-if="settingsStore.showTagsView" />
 
       <!-- 内容区域 -->
-      <app-main class="app-main"></app-main>
+      <app-main class="app-main" />
     </div>
   </div>
 </template>
