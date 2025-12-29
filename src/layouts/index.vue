@@ -3,35 +3,31 @@ import NavBar from './components/NavBar/index.vue'
 import SideBar from './components/SideBar/index.vue'
 import AppMain from './components/AppMain/index.vue'
 import TagsView from './components/TagsView/index.vue'
+import Settings from './components/Settings/index.vue'
 
-import { useAppStore, useSettingsStore } from '@/store'
-const appStore = useAppStore()
-const settingsStore = useSettingsStore()
+import { useLayout } from '@/hooks'
+
+const { isSidebarOpen, isShowTagsView, isShowSettings } = useLayout()
 </script>
 
 <template>
   <div class="layout-wrapper">
-    <!-- 侧边栏 -->
-    <side-bar />
+    <!-- 左侧菜单栏 -->
+    <SideBar />
 
-    <!-- 右侧区域  -->
+    <!-- 主体内容区 -->
     <div
       class="layout-main"
-      :class="{
-        'layout-main-collapsed': !appStore.sidebar.opened,
-        hasTagsView: settingsStore.showTagsView
-      }"
+      :class="{ hasTagsView: isShowTagsView, 'layout-main-collapsed': !isSidebarOpen }"
     >
-      <!-- 导航栏 -->
-      <nav-bar class="flex-header" />
-
-      <!-- 页签 -->
-      <tags-view v-if="settingsStore.showTagsView" />
-
-      <!-- 内容区域 -->
-      <app-main class="app-main" />
+      <NavBar />
+      <TagsView v-if="isShowTagsView" />
+      <AppMain />
     </div>
   </div>
+
+  <!-- 设置面板 - 独立于布局组件 -->
+  <Settings v-if="isShowSettings" />
 </template>
 
 <style scoped lang="scss">
@@ -41,27 +37,13 @@ const settingsStore = useSettingsStore()
 
   // 右侧
   .layout-main {
-    position: relative;
     height: 100%;
     margin-left: $sidebar-width;
     transition: margin-left $sidebar-duration;
 
     // 侧边栏收缩时
-    &.layout-main-collapsed {
+    &-collapsed {
       margin-left: $sidebar-width-collapsed;
-    }
-
-    // 主体内容区域
-    .app-main {
-      overflow-y: auto;
-      height: calc(100vh - $navbar-height);
-      padding: 20px;
-      background-color: #000;
-    }
-
-    // 页签存在时
-    &.hasTagsView .app-main {
-      height: calc(100vh - $navbar-height - $tags-view-height);
     }
   }
 }

@@ -57,7 +57,7 @@ const externalStyle = computed(() => ({
 
 <template>
   <!-- 本地 SVG -->
-  <svg v-if="isLocal" :class="svgClass" aria-hidden="true" :style="localStyle">
+  <svg v-if="isLocal" :class="svgClass" inert :focusable="false" :style="localStyle">
     <use :xlink:href="symbolId" :href="symbolId" />
   </svg>
 
@@ -69,5 +69,6 @@ const externalStyle = computed(() => ({
 .svg-icon {
   display: inline-block;
   vertical-align: -0.15em;
+  outline: none;
 }
 </style>

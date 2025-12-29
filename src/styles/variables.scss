@@ -21,13 +21,14 @@
   )
 );
 
+/** 浅色主题-白色侧边栏配色 */
 :root {
   --menu-background: #fff; // 菜单背景色
-  --menu-text: #212121; // 菜单文字颜色 浅色主题-白色侧边栏配色下仅占位，实际颜色由 el-menu-item 组件决定
+  --menu-text: #212121; // 菜单文字颜色（仅占位，实际颜色由 el-menu-item 组件决定）
   --menu-active-text: var(
     --el-menu-active-color
-  ); // 菜单激活文字颜色 浅色主题-白色侧边栏配色下仅占位，实际颜色由 el-menu-item 组件决定
-  --menu-hover: var(--el-menu-hover-bg-color); // 菜单悬停背景色
+  ); // 菜单激活文字颜色 （仅占位，实际颜色由 el-menu-item 组件决定）
+  --menu-hover: var(--el-menu-hover-bg-color); // 菜单悬停背景色（覆盖颜色）
   --sidebar-logo-background: #f5f5f5; // 侧边栏 Logo 背景色
   --sidebar-logo-text-color: #333; // 侧边栏 Logo 文字颜色
   --navbar-hover: rgba(0, 0, 0, 0.04); // 导航栏悬停背景色

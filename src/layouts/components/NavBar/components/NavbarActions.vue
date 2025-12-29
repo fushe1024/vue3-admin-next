@@ -1,5 +1,5 @@
 <script setup>
-import Settings from '@/layouts/components/Settings/index.vue'
+import { Setting } from '@element-plus/icons-vue'
 import { useUserStore, useSettingsStore } from '@/store'
 
 const userStore = useUserStore()
@@ -32,6 +32,11 @@ const handleSettingClick = () => {
     <!-- 全屏 -->
     <div class="navbar-actions__item">
       <Fullscreen />
+    </div>
+
+    <!-- 布局大小选择 -->
+    <div class="navbar-actions__item">
+      <SizeSelect />
     </div>
 
     <!-- 语言选择 -->
@@ -68,7 +73,9 @@ const handleSettingClick = () => {
 
     <!-- 系统设置 -->
     <div class="navbar-actions__item" @click="handleSettingClick">
-      <Settings />
+      <el-icon>
+        <Setting />
+      </el-icon>
     </div>
   </div>
 </template>
@@ -109,10 +116,24 @@ const handleSettingClick = () => {
       height: 100%;
     }
 
+    // svg-icon 图标样式
+    :deep([class^='svg-icon']) {
+      fill: var(--el-text-color-regular);
+      transition: color 0.3s;
+
+      &:hover {
+        fill: var(--el-color-primary);
+      }
+    }
+
     // 鼠标悬停
     &:hover {
       background-color: $navbar-hover;
-      color: var(--el-color-primary);
+
+      // el-icon 图标颜色
+      :deep(.el-icon) {
+        color: var(--el-color-primary);
+      }
     }
   }
 

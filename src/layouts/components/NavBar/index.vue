@@ -26,7 +26,7 @@ const { toggleSidebar } = appStore
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--el-bg-color-overlay);
+  background-color: var(--el-bg-color);
   padding-left: 15px;
   height: $navbar-height;
 

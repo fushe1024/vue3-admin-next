@@ -15,7 +15,7 @@
 <style scoped lang="scss">
 .tags-view-wrapper {
   height: $tags-view-height;
-  background-color: var(--el-bg-color-overlay);
+  background-color: var(--el-bg-color);
   border-top: 1px solid var(--el-border-color-light);
   padding: 0 15px;
 

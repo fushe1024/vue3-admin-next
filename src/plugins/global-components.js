@@ -35,6 +35,8 @@ export function setupGlobalComponents(app, options = {}) {
   })
 }
 
-// 组件使用示例：
+// PascalCase 使用示例：
 // <SvgIcon name="icon-name" size="24" color="#409EFF" />
+
+// kebab-case 使用示例：
 // <svg-icon name="icon-name" size="24" color="#409EFF" />

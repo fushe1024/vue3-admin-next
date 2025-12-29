@@ -10,6 +10,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.24(typescript@5.9.3))
+      animate.css:
+        specifier: ^4.1.1
+        version: 4.1.1
       axios:
         specifier: ^1.13.2
         version: 1.13.2
@@ -22,6 +25,9 @@ importers:
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
+      path-browserify:
+        specifier: ^1.0.1
+        version: 1.0.1
       pinia:
         specifier: ^3.0.3
         version: 3.0.4(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3))
@@ -1454,6 +1460,12 @@ packages:
     resolution:
       {
         integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==
+      }
+
+  animate.css@4.1.1:
+    resolution:
+      {
+        integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==
       }
 
   ansi-escapes@7.2.0:
@@ -4007,6 +4019,12 @@ packages:
       }
     engines: { node: '>=0.10.0' }
 
+  path-browserify@1.0.1:
+    resolution:
+      {
+        integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==
+      }
+
   path-exists@4.0.0:
     resolution:
       {
@@ -6352,6 +6370,8 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
+  animate.css@4.1.1: {}
+
   ansi-escapes@7.2.0:
     dependencies:
       environment: 1.1.0
@@ -7872,6 +7892,8 @@ snapshots:
       lines-and-columns: 1.2.4
 
   pascalcase@0.1.1: {}
+
+  path-browserify@1.0.1: {}
 
   path-exists@4.0.0: {}
 

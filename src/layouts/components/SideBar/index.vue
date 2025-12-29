@@ -1,18 +1,20 @@
 <script setup>
-import Logo from '@/layouts/components/AppLogo/index.vue'
-import Menu from '@/layouts/components/Menu/index.vue'
-import { useAppStore } from '@/store'
+import AppLogo from '@/layouts/components/AppLogo/index.vue'
+import BasicMenu from '@/layouts/components/Menu/BasicMenu.vue'
+import { useLayout } from '@/hooks'
 
-const appStore = useAppStore()
+const { isSidebarOpen, isShowLogo } = useLayout()
 </script>
 
 <template>
-  <div
-    class="layout-sidebar"
-    :class="{ 'layout-sidebar-collapsed': !appStore.sidebar.opened }"
-  >
-    <logo></logo>
-    <Menu></Menu>
+  <div class="layout-sidebar" :class="{ 'layout-sidebar-collapsed': !isSidebarOpen }">
+    <!-- Logo -->
+    <AppLogo v-if="isShowLogo" :collapse="!isSidebarOpen" />
+
+    <!-- 主菜单内容 -->
+    <el-scrollbar height="100%">
+      <BasicMenu />
+    </el-scrollbar>
   </div>
 </template>
 
@@ -29,8 +31,13 @@ const appStore = useAppStore()
   z-index: 999;
 
   // 收缩侧边栏
-  &.layout-sidebar-collapsed {
+  &-collapsed {
     width: $sidebar-width-collapsed;
+  }
+
+  // 移除菜单边框
+  :deep(.el-menu) {
+    border: none;
   }
 }
 </style>

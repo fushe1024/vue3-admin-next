@@ -1,7 +1,7 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-// 进度条
+// 进度条配置
 NProgress.configure({
   // 动画方式
   easing: 'ease',

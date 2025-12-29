@@ -1,39 +1,47 @@
 <script setup>
-import { Switch } from '@element-plus/icons-vue'
-import { ref, computed } from 'vue'
+// import { MagicStick } from '@element-plus/icons-vue'
+import { computed } from 'vue'
 import { LanguageEnum } from '@/enums'
+import { useAppStore } from '@/store'
 
-// 当前语言
-const currentLang = ref(LanguageEnum.ZH_CN)
+const appStore = useAppStore()
 
-// 是否禁用
-const disabled = computed(() => currentLang.value === LanguageEnum.ZH_CN)
+// 语言选项
+const langOptions = computed(() => {
+  return [
+    { label: '中文', value: LanguageEnum.ZH_CN },
+    { label: 'English', value: LanguageEnum.EN }
+  ]
+})
 
 // 切换语言
-const handleCommand = (command) => {
-  currentLang.value = command
+const handleLanguageChange = (command) => {
+  appStore.changeLanguage(command)
 }
 </script>
 
 <template>
-  <el-dropdown trigger="click" @command="handleCommand">
-    <template #default>
-      <el-icon>
-        <Switch />
-      </el-icon>
-    </template>
+  <!-- 布局大小 -->
+  <el-tooltip content="切换语言" effect="dark" placement="bottom">
+    <el-dropdown trigger="click" @command="handleLanguageChange">
+      <template #default>
+        <svg-icon name="language" />
+      </template>
 
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item :disabled="disabled" :command="LanguageEnum.ZH_CN">
-          中文
-        </el-dropdown-item>
-        <el-dropdown-item :disabled="!disabled" :command="LanguageEnum.EN">
-          English
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item
+            v-for="item in langOptions"
+            :key="item.value"
+            :disabled="appStore.language === item.value"
+            :command="item.value"
+          >
+            {{ item.label }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </el-tooltip>
 </template>
 
 <style scoped></style>
