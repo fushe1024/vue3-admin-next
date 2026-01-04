@@ -43,7 +43,7 @@ const iconComponent = computed(() => props.icon?.replace('el-icon-', ''))
   justify-content: center;
   width: 18px;
   height: 18px;
-  margin-right: 5px;
+  margin-right: 8px;
   color: $menu-text;
   fill: $menu-text;
 }

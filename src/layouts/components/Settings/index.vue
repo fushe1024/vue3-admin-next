@@ -80,62 +80,64 @@ defineExpose({
 
 <template>
   <el-drawer v-model="drawerVisible" size="380" title="项目配置" class="settings-drawer">
-    <div class="settings-content">
-      <!-- 主题设置 -->
-      <section class="config-section">
-        <el-divider content-position="center">主题设置</el-divider>
-        <div class="theme-setting">
-          <el-switch
-            v-model="isDark"
-            :active-icon="Moon"
-            :inactive-icon="Sunny"
-            class="theme-switch"
-            @change="handleThemeChange"
-          />
-        </div>
-      </section>
+    <el-scrollbar height="100%">
+      <div class="settings-content">
+        <!-- 主题设置 -->
+        <section class="config-section">
+          <el-divider content-position="center">主题设置</el-divider>
+          <div class="theme-setting">
+            <el-switch
+              v-model="isDark"
+              :active-icon="Moon"
+              :inactive-icon="Sunny"
+              class="theme-switch"
+              @change="handleThemeChange"
+            />
+          </div>
+        </section>
 
-      <!-- 界面设置 -->
-      <section class="config-section">
-        <el-divider content-position="center">界面设置</el-divider>
+        <!-- 界面设置 -->
+        <section class="config-section">
+          <el-divider content-position="center">界面设置</el-divider>
 
-        <div class="config-item">
-          <span class="text-xs">主题颜色</span>
-          <el-color-picker :predefine="colorPresets" v-model="selectedThemeColor" />
-        </div>
+          <div class="config-item">
+            <span class="text-xs">主题颜色</span>
+            <el-color-picker :predefine="colorPresets" v-model="selectedThemeColor" />
+          </div>
 
-        <div class="config-item">
-          <span class="text-xs">显示页签</span>
-          <el-switch v-model="settingsStore.showTagsView" />
-        </div>
+          <div class="config-item">
+            <span class="text-xs">显示页签</span>
+            <el-switch v-model="settingsStore.showTagsView" />
+          </div>
 
-        <div class="config-item">
-          <span class="text-xs">显示Logo</span>
-          <el-switch v-model="settingsStore.showAppLogo" />
-        </div>
+          <div class="config-item">
+            <span class="text-xs">显示Logo</span>
+            <el-switch v-model="settingsStore.showAppLogo" />
+          </div>
 
-        <div class="config-item">
-          <span class="text-xs">显示水印</span>
-          <el-switch v-model="settingsStore.showWatermark" />
-        </div>
+          <div class="config-item">
+            <span class="text-xs">显示水印</span>
+            <el-switch v-model="settingsStore.showWatermark" />
+          </div>
 
-        <div class="config-item" v-if="!isDark">
-          <span class="text-xs">侧边栏配色</span>
-          <el-radio-group v-model="sidebarColor" @change="changeSidebarColor">
-            <el-radio :label="SidebarColor.CLASSIC_BLUE"> 经典蓝 </el-radio>
-            <el-radio :label="SidebarColor.MINIMAL_WHITE"> 极简白 </el-radio>
-          </el-radio-group>
-        </div>
-      </section>
+          <div class="config-item" v-if="!isDark">
+            <span class="text-xs">侧边栏配色</span>
+            <el-radio-group v-model="sidebarColor" @change="changeSidebarColor">
+              <el-radio :label="SidebarColor.CLASSIC_BLUE"> 经典蓝 </el-radio>
+              <el-radio :label="SidebarColor.MINIMAL_WHITE"> 极简白 </el-radio>
+            </el-radio-group>
+          </div>
+        </section>
 
-      <!-- 布局设置 -->
-      <section class="config-section">
-        <el-divider content-position="center">导航设置</el-divider>
-        <div class="navigation-setting">
-          <span class="text-xs">待开发</span>
-        </div>
-      </section>
-    </div>
+        <!-- 布局设置 -->
+        <section class="config-section">
+          <el-divider content-position="center">导航设置</el-divider>
+          <div class="navigation-setting">
+            <span class="text-xs">待开发</span>
+          </div>
+        </section>
+      </div>
+    </el-scrollbar>
 
     <!-- 操作按钮区域 - 固定到底部 -->
     <template #footer>
@@ -170,7 +172,7 @@ defineExpose({
 
 /* 设置内容区域 */
 .settings-content {
-  height: calc(100vh - 120px); /* 减去头部和底部按钮的高度 */
+  height: 100%;
   padding: 20px;
   overflow-y: auto;
 }

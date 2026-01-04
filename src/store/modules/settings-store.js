@@ -9,9 +9,6 @@ import {
   toggleSidebarColor
 } from '@/utils/theme'
 
-// test
-console.log('默认配置', defaultSettings)
-
 export const useSettingsStore = defineStore(
   'setting',
   () => {

@@ -6,9 +6,6 @@ defineOptions({
 })
 
 const props = defineProps({
-  /**
-   * 当前路由对象
-   */
   item: {
     type: Object,
     required: true
@@ -20,7 +17,7 @@ console.log(props.item)
 
 <template>
   <!-- el-sub-menu -->
-  <el-sub-menu v-if="item.children.length > 0" :index="item.path">
+  <el-sub-menu v-if="item.children && item.children.length > 0" :index="item.path">
     <template #title>
       <menu-item-content
         :title="item.meta.title"
@@ -44,12 +41,12 @@ console.log(props.item)
 // 菜单激活状态 - 图标填充颜色
 .el-menu-item.is-active {
   :deep(.svg-icon) {
-    fill: $menu-active-text !important;
+    fill: $menu-active-text;
   }
 }
 
 // 子菜单激活状态 - 背景颜色
 .el-sub-menu.is-active {
-  background-color: $menu-hover !important;
+  background-color: $menu-hover;
 }
 </style>

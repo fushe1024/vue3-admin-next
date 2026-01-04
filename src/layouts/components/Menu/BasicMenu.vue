@@ -4,6 +4,7 @@ import { useAppStore, useSettingsStore } from '@/store'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { generateMenuFromRoutes } from '@/utils/route'
+import { constantRoutes } from '@/router'
 
 const menuRef = ref(null)
 
@@ -13,7 +14,9 @@ const settingsStore = useSettingsStore()
 // 路由实例
 const router = useRouter()
 
-const menuItems = generateMenuFromRoutes(router.getRoutes())
+// console.log(constantRoutes)
+
+const menuItems = generateMenuFromRoutes(constantRoutes)
 console.log(menuItems)
 
 // 获取当前激活的菜单路径
@@ -28,7 +31,7 @@ const activePath = computed(() => router.currentRoute.value.path)
     :popper-effect="settingsStore.theme"
     :unique-opened="false"
     :collapse-transition="appStore.sidebar.withoutAnimation"
-    :router="router"
+    router
   >
     <!-- 菜单项 -->
     <MenuItem v-for="route in menuItems" :key="route.path" :item="route" />
