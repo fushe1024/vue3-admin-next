@@ -2,28 +2,30 @@
 import { computed } from 'vue'
 import { ComponentSize } from '@/enums'
 import { useAppStore } from '@/store'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const appStore = useAppStore()
 
 // 尺寸选项
 const sizeOptions = computed(() => {
   return [
-    { label: '默认', value: ComponentSize.DEFAULT },
-    { label: '大型', value: ComponentSize.LARGE },
-    { label: '小型', value: ComponentSize.SMALL }
+    { label: t('sizeSelect.default'), value: ComponentSize.DEFAULT },
+    { label: t('sizeSelect.large'), value: ComponentSize.LARGE },
+    { label: t('sizeSelect.small'), value: ComponentSize.SMALL }
   ]
 })
 
 // 切换布局
-const handleSizeChange = (command) => {
-  appStore.changeSize(command)
-  ElMessage.success('切换布局大小成功！')
+const handleSizeChange = (size) => {
+  appStore.changeSize(size)
+  ElMessage.success(t('sizeSelect.message.success'))
 }
 </script>
 
 <template>
   <!-- 布局大小 -->
-  <el-tooltip content="布局大小" effect="dark" placement="bottom">
+  <el-tooltip :content="t('sizeSelect.tooltip')" effect="dark" placement="bottom">
     <el-dropdown trigger="click" @command="handleSizeChange">
       <template #default>
         <svg-icon name="size" />

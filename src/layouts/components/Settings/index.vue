@@ -3,8 +3,10 @@ import { CopyDocument, RefreshLeft, Moon, Sunny } from '@element-plus/icons-vue'
 import { ref, computed } from 'vue'
 import { ThemeMode, SidebarColor } from '@/enums'
 import { themeColorPresets } from '@/settings'
-
 import { useSettingsStore } from '@/store'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 // 加载状态
 const resetLoading = ref(false)
@@ -50,7 +52,7 @@ const drawerVisible = computed({
 
 // 复制配置
 const copyConfig = () => {
-  ElMessage.success('配置已复制到剪贴板')
+  ElMessage.success(t('settings.copySuccess'))
 }
 
 // 重置默认
@@ -64,9 +66,9 @@ const resetDefault = () => {
     isDark.value = settingsStore.theme === ThemeMode.DARK
     sidebarColor.value = settingsStore.sidebarColorScheme
 
-    ElMessage.success('重置配置成功')
+    ElMessage.success(t('settings.resetSuccess'))
   } catch {
-    ElMessage.error('重置配置失败')
+    ElMessage.error(t('settings.resetError'))
   } finally {
     resetLoading.value = false
   }
@@ -79,12 +81,17 @@ defineExpose({
 </script>
 
 <template>
-  <el-drawer v-model="drawerVisible" size="380" title="项目配置" class="settings-drawer">
+  <el-drawer
+    v-model="drawerVisible"
+    size="380"
+    :title="t('settings.project')"
+    class="settings-drawer"
+  >
     <el-scrollbar height="100%">
       <div class="settings-content">
         <!-- 主题设置 -->
         <section class="config-section">
-          <el-divider content-position="center">主题设置</el-divider>
+          <el-divider content-position="center">{{ t('settings.theme') }}</el-divider>
           <div class="theme-setting">
             <el-switch
               v-model="isDark"
@@ -98,40 +105,48 @@ defineExpose({
 
         <!-- 界面设置 -->
         <section class="config-section">
-          <el-divider content-position="center">界面设置</el-divider>
+          <el-divider content-position="center">
+            {{ t('settings.interface') }}
+          </el-divider>
 
           <div class="config-item">
-            <span class="text-xs">主题颜色</span>
+            <span class="text-xs">{{ t('settings.themeColor') }}</span>
             <el-color-picker :predefine="colorPresets" v-model="selectedThemeColor" />
           </div>
 
           <div class="config-item">
-            <span class="text-xs">显示页签</span>
+            <span class="text-xs">{{ t('settings.showTagsView') }}</span>
             <el-switch v-model="settingsStore.showTagsView" />
           </div>
 
           <div class="config-item">
-            <span class="text-xs">显示Logo</span>
+            <span class="text-xs">{{ t('settings.showAppLogo') }}</span>
             <el-switch v-model="settingsStore.showAppLogo" />
           </div>
 
           <div class="config-item">
-            <span class="text-xs">显示水印</span>
+            <span class="text-xs">{{ t('settings.showWatermark') }}</span>
             <el-switch v-model="settingsStore.showWatermark" />
           </div>
 
           <div class="config-item" v-if="!isDark">
-            <span class="text-xs">侧边栏配色</span>
+            <span class="text-xs">{{ t('settings.sidebarColorScheme') }}</span>
             <el-radio-group v-model="sidebarColor" @change="changeSidebarColor">
-              <el-radio :label="SidebarColor.CLASSIC_BLUE"> 经典蓝 </el-radio>
-              <el-radio :label="SidebarColor.MINIMAL_WHITE"> 极简白 </el-radio>
+              <el-radio :label="SidebarColor.CLASSIC_BLUE">
+                {{ t('settings.classicBlue') }}
+              </el-radio>
+              <el-radio :label="SidebarColor.MINIMAL_WHITE">
+                {{ t('settings.minimalWhite') }}
+              </el-radio>
             </el-radio-group>
           </div>
         </section>
 
         <!-- 布局设置 -->
         <section class="config-section">
-          <el-divider content-position="center">导航设置</el-divider>
+          <el-divider content-position="center">
+            {{ t('settings.navigation') }}
+          </el-divider>
           <div class="navigation-setting">
             <span class="text-xs">待开发</span>
           </div>
@@ -143,7 +158,7 @@ defineExpose({
     <template #footer>
       <div class="action-buttons">
         <el-button type="primary" size="default" :icon="CopyDocument" @click="copyConfig">
-          复制配置
+          {{ t('settings.copyConfig') }}
         </el-button>
         <el-button
           type="warning"
@@ -152,7 +167,7 @@ defineExpose({
           :loading="resetLoading"
           @click="resetDefault"
         >
-          重置默认
+          {{ t('settings.resetConfig') }}
         </el-button>
       </div>
     </template>

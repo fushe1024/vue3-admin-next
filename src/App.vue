@@ -8,6 +8,7 @@ const settingsStore = useSettingsStore()
 const appStore = useAppStore()
 
 const locale = computed(() => appStore.locale)
+
 const size = computed(() => appStore.size)
 const showWatermark = computed(() => settingsStore.showWatermark)
 

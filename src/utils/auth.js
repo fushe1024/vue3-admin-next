@@ -1,12 +1,12 @@
 import storage from './storage'
-import { TIMESTAMP_KEY, TIMEOUT } from '@/constants'
+import { TIMEOUT, STORAGE_KEYS } from '@/constants'
 
 /**
  * 获取本地时间戳
  * @returns {number} 时间戳（单位毫秒） 如不存在返回当前时间戳
  */
 export const getTimestamp = () => {
-  return storage.get(TIMESTAMP_KEY)
+  return storage.get(STORAGE_KEYS.TIMESTAMP_KEY)
 }
 
 /**
@@ -14,7 +14,7 @@ export const getTimestamp = () => {
  * @description 用于记录用户最近一次操作的时间戳，用于校验登录过期
  */
 export const setTimestamp = () => {
-  storage.set(TIMESTAMP_KEY, Date.now())
+  storage.set(STORAGE_KEYS.TIMESTAMP_KEY, Date.now())
 }
 
 /**

@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { translateRouteTitle } from '@/utils/i18n'
 
 const props = defineProps({
   icon: {
@@ -32,7 +33,7 @@ const iconComponent = computed(() => props.icon?.replace('el-icon-', ''))
   </template>
 
   <!-- 菜单标题 -->
-  <span v-if="title">{{ title }}</span>
+  <span v-if="title">{{ translateRouteTitle(title) }}</span>
 </template>
 
 <style scoped lang="scss">

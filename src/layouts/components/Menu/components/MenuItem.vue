@@ -5,14 +5,12 @@ defineOptions({
   name: 'MenuItem'
 })
 
-const props = defineProps({
+defineProps({
   item: {
     type: Object,
     required: true
   }
 })
-
-console.log(props.item)
 </script>
 
 <template>

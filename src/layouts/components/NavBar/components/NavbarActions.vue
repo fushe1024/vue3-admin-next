@@ -63,9 +63,15 @@ const handleSettingClick = () => {
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-            <el-dropdown-item command="github">仓库地址</el-dropdown-item>
-            <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item command="profile">
+              {{ $t('navbar.profile') }}
+            </el-dropdown-item>
+            <el-dropdown-item command="github">
+              {{ $t('navbar.github') }}
+            </el-dropdown-item>
+            <el-dropdown-item divided command="logout">
+              {{ $t('navbar.logout') }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

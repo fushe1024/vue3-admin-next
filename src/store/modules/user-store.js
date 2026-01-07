@@ -4,7 +4,7 @@ import md5 from 'md5'
 import { loginApi, getUserInfoApi } from '@/api/user'
 import router from '@/router'
 import { setTimestamp } from '@/utils/auth'
-import store from '@/store'
+import { store } from '@/store'
 
 export const useUserStore = defineStore(
   'user',

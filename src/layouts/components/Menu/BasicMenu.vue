@@ -14,10 +14,7 @@ const settingsStore = useSettingsStore()
 // 路由实例
 const router = useRouter()
 
-// console.log(constantRoutes)
-
 const menuItems = generateMenuFromRoutes(constantRoutes)
-console.log(menuItems)
 
 // 获取当前激活的菜单路径
 const activePath = computed(() => router.currentRoute.value.path)

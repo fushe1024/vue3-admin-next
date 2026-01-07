@@ -1,8 +1,10 @@
 <script setup>
-// import { MagicStick } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { LanguageEnum } from '@/enums'
 import { useAppStore } from '@/store'
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 
 const appStore = useAppStore()
 
@@ -15,14 +17,16 @@ const langOptions = computed(() => {
 })
 
 // 切换语言
-const handleLanguageChange = (command) => {
-  appStore.changeLanguage(command)
+const handleLanguageChange = (lang) => {
+  locale.value = lang
+  appStore.changeLanguage(lang)
+  ElMessage.success(t('langSelect.message.success'))
 }
 </script>
 
 <template>
   <!-- 布局大小 -->
-  <el-tooltip content="切换语言" effect="dark" placement="bottom">
+  <el-tooltip :content="t('langSelect.tooltip')" effect="dark" placement="bottom">
     <el-dropdown trigger="click" @command="handleLanguageChange">
       <template #default>
         <svg-icon name="language" />

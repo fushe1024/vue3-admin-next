@@ -2,6 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { compile } from 'path-to-regexp'
 import { ref, onBeforeMount, watch } from 'vue'
+import { translateRouteTitle } from '@/utils/i18n'
 
 const currentRoute = useRoute()
 const router = useRouter()
@@ -22,7 +23,7 @@ const getBreadcrumb = () => {
   // 如果不是仪表盘页面，手动添加首页面包屑
   const first = matched[0]
   if (!isDashboard(first)) {
-    matched = [{ path: '/dashboard', meta: { title: '首页' } }].concat(matched)
+    matched = [{ path: '/dashboard', meta: { title: 'dashboard' } }].concat(matched)
   }
 
   // 过滤出需要显示的面包屑
@@ -61,10 +62,10 @@ onBeforeMount(() => {
   <el-breadcrumb>
     <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
       <span class="last-item" v-if="index === breadcrumbs.length - 1">
-        {{ item.meta.title }}
+        {{ translateRouteTitle(item.meta.title) }}
       </span>
       <a v-else @click.prevent="handleLink(item)">
-        {{ item.meta.title }}
+        {{ translateRouteTitle(item.meta.title) }}
       </a>
     </el-breadcrumb-item>
   </el-breadcrumb>
