@@ -3,7 +3,7 @@
 <template>
   <div class="tags-view-wrapper">
     <el-scrollbar class="scrollbar-container" :view-style="{ height: '100%' }">
-      <div class="tags-container">
+      <div class="tags-container" id="guide-tags">
         <el-tag class="tag-item" type="info">首页</el-tag>
         <el-tag class="tag-item" closable effect="dark" type="primary">测试</el-tag>
         <el-tag class="tag-item" closable type="info">测试</el-tag>

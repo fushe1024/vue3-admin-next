@@ -14,6 +14,30 @@
     "articleDetail": "ArticleDetail",
     "articleEditor": "ArticleEditor"
   },
+  "guide": {
+    "next": "Next Step",
+    "prev": "Previous Step",
+    "close": "Close Guide",
+    "done": "Done",
+    "guideTitle": "Guide",
+    "guideDesc": "Open guide function",
+    "hamburgerTitle": "Hamburger Button",
+    "hamburgerDesc": "Open and close the left menu",
+    "breadcrumbTitle": "Breadcrumb",
+    "breadcrumbDesc": "Indicates the current page location",
+    "searchTitle": "Search",
+    "searchDesc": "Page link search",
+    "fullTitle": "Fullscreen",
+    "fullDesc": "Page display switch",
+    "sizeTitle": "Layout Size",
+    "sizeDesc": "Switch project layout size",
+    "langTitle": "Internationalization",
+    "langDesc": "Language switch",
+    "tagTitle": "Tag",
+    "tagDesc": "Opened page tags",
+    "sidebarTitle": "Menu",
+    "sidebarDesc": "Project Function Menu"
+  },
   "login": {
     "themeToggle": "Theme Switch",
     "languageToggle": "Language Switch",
@@ -64,6 +88,15 @@
     "small": "Small",
     "message": {
       "success": "Switch Layout Size Successful!"
+    }
+  },
+  "search": {
+    "placeholder": "Search Menu",
+    "empty": "No search history",
+    "hints": {
+      "switch": "Switch",
+      "select": "Select",
+      "close": "Close"
     }
   },
   "langSelect": {

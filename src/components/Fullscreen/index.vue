@@ -37,7 +37,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div>
+  <div id="guide-full">
     <el-icon @click="toggleFullscreen">
       <svg-icon :name="iconName" />
     </el-icon>

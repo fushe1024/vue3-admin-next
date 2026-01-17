@@ -14,6 +14,30 @@
     "articleDetail": "文章详情",
     "articleEditor": "文章编辑"
   },
+  "guide": {
+    "next": "下一步",
+    "prev": "上一步",
+    "close": "关闭",
+    "done": "完成",
+    "guideTitle": "引导",
+    "guideDesc": "打开引导功能",
+    "hamburgerTitle": "汉堡按钮",
+    "hamburgerDesc": "打开和关闭左侧菜单",
+    "breadcrumbTitle": "面包屑",
+    "breadcrumbDesc": "指示当前页面位置",
+    "searchTitle": "搜索",
+    "searchDesc": "页面链接搜索",
+    "fullTitle": "全屏",
+    "fullDesc": "页面显示切换",
+    "sizeTitle": "布局大小",
+    "sizeDesc": "切换项目布局大小",
+    "langTitle": "国际化",
+    "langDesc": "语言切换",
+    "tagTitle": "标签",
+    "tagDesc": "已打开页面标签",
+    "sidebarTitle": "菜单",
+    "sidebarDesc": "项目功能菜单"
+  },
   "login": {
     "themeToggle": "主题切换",
     "languageToggle": "语言切换",
@@ -64,6 +88,15 @@
     "small": "小型",
     "message": {
       "success": "切换布局大小成功！"
+    }
+  },
+  "search": {
+    "placeholder": "搜索菜单",
+    "empty": "暂无搜索历史",
+    "hints": {
+      "switch": "切换",
+      "select": "选择",
+      "close": "关闭"
     }
   },
   "langSelect": {

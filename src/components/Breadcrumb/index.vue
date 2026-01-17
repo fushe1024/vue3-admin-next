@@ -34,9 +34,6 @@ const getBreadcrumb = () => {
 
 // 处理点击面包屑跳转
 const handleLink = (item) => {
-  console.log(compile(item.path)(currentRoute.params))
-
-  // 处理动态路由参数
   router.push(compile(item.path)(currentRoute.params)).catch((err) => {
     console.warn(err)
   })
@@ -59,7 +56,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <el-breadcrumb>
+  <el-breadcrumb id="guide-breadcrumb">
     <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
       <span class="last-item" v-if="index === breadcrumbs.length - 1">
         {{ translateRouteTitle(item.meta.title) }}

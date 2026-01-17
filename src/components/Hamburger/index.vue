@@ -11,7 +11,7 @@ const handleClick = () => {
 </script>
 
 <template>
-  <div class="hamburger-wrapper">
+  <div class="hamburger-wrapper" id="guide-hamburger">
     <svg-icon
       class="hamburger-icon"
       :name="isActive ? 'hamburger-opened' : 'hamburger-closed'"

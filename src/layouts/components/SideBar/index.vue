@@ -7,7 +7,11 @@ const { isSidebarOpen, isShowLogo } = useLayout()
 </script>
 
 <template>
-  <div class="layout-sidebar" :class="{ 'layout-sidebar-collapsed': !isSidebarOpen }">
+  <div
+    class="layout-sidebar"
+    :class="{ 'layout-sidebar-collapsed': !isSidebarOpen }"
+    id="guide-sidebar"
+  >
     <!-- Logo -->
     <AppLogo v-if="isShowLogo" :collapse="!isSidebarOpen" />
 

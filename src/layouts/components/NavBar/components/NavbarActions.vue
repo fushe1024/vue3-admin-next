@@ -29,6 +29,11 @@ const handleSettingClick = () => {
       <MenuSearch />
     </div>
 
+    <!-- 指南 -->
+    <div class="navbar-actions__item">
+      <Guide />
+    </div>
+
     <!-- 全屏 -->
     <div class="navbar-actions__item">
       <Fullscreen />
@@ -46,7 +51,7 @@ const handleSettingClick = () => {
 
     <!-- 通知 -->
     <div class="navbar-actions__item">
-      <Notification />
+      <NoticeDropdown />
     </div>
 
     <!-- 用户菜单 -->
