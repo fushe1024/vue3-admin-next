@@ -119,6 +119,17 @@ export const privateRoutes = [
 // 公开路由表
 export const publicRoutes = [
   {
+    path: '/redirect',
+    component: Layout,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index.vue')
+      }
+    ]
+  },
+  {
     path: '/',
     name: '/',
     component: Layout,
@@ -131,7 +142,8 @@ export const publicRoutes = [
         meta: {
           title: 'dashboard',
           icon: 'homepage',
-          hidden: false
+          hidden: false,
+          affix: true
         }
       }
     ]

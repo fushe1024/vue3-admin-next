@@ -20,7 +20,7 @@
 
   h1 {
     font-size: 48px;
-    color: #ff4d4f;
+    color: var(--el-color-primary);
   }
 
   .not-found-msg {
@@ -29,7 +29,7 @@
     margin-top: 20px;
 
     a {
-      color: #ff4d4f;
+      color: var(--el-color-primary);
     }
   }
 }

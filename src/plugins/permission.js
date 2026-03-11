@@ -30,7 +30,7 @@ export function setupPermission() {
         return true
       } else {
         // 没有token，并且不在白名单
-        ElMessage.warning('请先登录')
+        ElMessage.warning('您没有权限访问，请先登录')
         return '/login'
       }
     }

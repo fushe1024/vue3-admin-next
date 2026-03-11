@@ -13,5 +13,7 @@ export const STORAGE_KEYS = {
   // 应用状态相关
   SIZE: `${APP_PREFIX}:app:size`, // 布局尺寸
   LANGUAGE: `${APP_PREFIX}:app:language`, // 应用语言
-  SIDEBAR_STATUS: `${APP_PREFIX}:app:sidebar_status` // 侧边栏状态
+  SIDEBAR_STATUS: `${APP_PREFIX}:app:sidebar_status`, // 侧边栏状态
+
+  TAGS_VIEW: `${APP_PREFIX}:app:tags_view` // 标签页状态
 }

@@ -14,4 +14,5 @@ export function setupStore(app) {
 export * from './modules/user-store'
 export * from './modules/app-store'
 export * from './modules/settings-store'
+export * from './modules/tags-view'
 export { store }
