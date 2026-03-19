@@ -105,6 +105,7 @@ export const useTagsViewStore = defineStore(
         if (index === -1) {
           return
         }
+
         tagsViewList.value = tagsViewList.value.filter((v, i) => i <= index || v?.affix)
 
         resolve([...tagsViewList.value])
@@ -126,9 +127,13 @@ export const useTagsViewStore = defineStore(
     /**
      * 关闭所有 tagView
      */
-    const delAllViews = () => {
+    const delAllViews = (view) => {
       return new Promise((resolve) => {
-        tagsViewList.value = []
+        tagsViewList.value = tagsViewList.value.filter((v) => v?.affix)
+
+        // 如果最后一个视图是固定的（affix），则需要将其设置为最后一个视图
+        toLastView(view)
+
         resolve([...tagsViewList.value])
       })
     }

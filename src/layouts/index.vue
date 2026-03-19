@@ -21,7 +21,9 @@ const { isSidebarOpen, isShowTagsView, isShowSettings } = useLayout()
       :class="{ hasTagsView: isShowTagsView, 'layout-main-collapsed': !isSidebarOpen }"
     >
       <NavBar />
+
       <TagsView v-if="isShowTagsView" />
+
       <AppMain />
     </div>
   </div>

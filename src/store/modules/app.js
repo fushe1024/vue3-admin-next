@@ -32,25 +32,17 @@ export const useAppStore = defineStore('app', () => {
   const language = ref(storage.get(STORAGE_KEYS.LANGUAGE) || defaultSettings.language)
 
   // 语言对应的 Element Plus 语言包
-  const locale = computed(() => {
-    if (language?.value == 'en') {
-      return en
-    } else {
-      return zhCn
-    }
-  })
+  const locale = computed(() => (language?.value == 'en' ? en : zhCn))
 
   // 更改布局大小
   const changeSize = (newSize) => {
     size.value = newSize
-    // 保存布局大小到本地存储
     storage.set(STORAGE_KEYS.SIZE, newSize)
   }
 
   // 更改语言
   const changeLanguage = (newLanguage) => {
     language.value = newLanguage
-    // 保存语言到本地存储
     storage.set(STORAGE_KEYS.LANGUAGE, newLanguage)
   }
 
@@ -97,11 +89,6 @@ export const useAppStore = defineStore('app', () => {
   }
 })
 
-/**
- * 用于在组件外部（如在Pinia Store 中）使用 Pinia 提供的 store 实例。
- * 官方文档解释了如何在组件外部使用 Pinia Store：
- * https://pinia.vuejs.org/core-concepts/outside-component-usage.html#using-a-store-outside-of-a-component
- */
 export function useAppStoreHook() {
   return useAppStore(store)
 }

@@ -26,7 +26,7 @@ export const defaultSettings = {
   size: ComponentSize.DEFAULT,
   // 语言，默认中文
   language: LanguageEnum.ZH_CN,
-  // 主题颜色 - 修改此值时需同步修改 src/styles/variables.scss
+  // 主题颜色 - 修改此值时需同步修改 src/styles/element-plus-vars.scss
   themeColor: '#4080FF',
   // 是否显示水印
   showWatermark: false,

@@ -12,7 +12,7 @@ import {
 export const useSettingsStore = defineStore(
   'setting',
   () => {
-    // 设置面板可见性
+    // 是否显示设置面板
     const settingsVisible = ref(false)
 
     // 主题模式（dark / light）
@@ -149,7 +149,7 @@ export const useSettingsStore = defineStore(
   },
   {
     persist: {
-      omit: ['settingsVisible'] // 不持久化 settingsVisible
+      omit: ['settingsVisible']
     }
   }
 )

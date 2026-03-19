@@ -1,23 +1,21 @@
 import { createI18n } from 'vue-i18n'
-// import { useAppStoreHook } from '@/store/modules/app-store'
+// import { useAppStoreHook } from '@/store/modules/app'
 import { STORAGE_KEYS } from '@/constants'
 import storage from '@/utils/storage'
-
 // 本地语言包
 import enLocale from './package/en.json'
 import zhCnLocale from './package/zh-cn.json'
+
+// const appStore = useAppStoreHook()
 
 // 语言包
 const messages = {
   'zh-cn': zhCnLocale,
   en: enLocale
 }
+
 // 获取语言
-function getLanguage() {
-  // const appStore = useAppStoreHook()
-  // return appStore.language
-  return storage.get(STORAGE_KEYS.LANGUAGE) || 'zh-cn'
-}
+const getLanguage = () => storage.get(STORAGE_KEYS.LANGUAGE) || 'zh-cn'
 
 // 创建 i18n 实例
 const i18n = createI18n({

@@ -1,10 +1,25 @@
+// 通过 SCSS 变量导出给 JS/TS 使用的模块文件
+// 注意：依赖 src/styles/variables.scss 中定义的 SCSS 变量
+
 /* 全局变量 */
 :export {
+  // 侧边栏
+  sidebar-width: $sidebar-width;
+  sidebar-width-collapsed: $sidebar-width-collapsed;
+  sidebar-duration: $sidebar-duration;
+  sidebar-logo-background: $sidebar-logo-background;
+  sidebar-logo-text-color: $sidebar-logo-text-color;
+
+  // 导航栏
+  navbar-height: $navbar-height;
+  navbar-hover: $navbar-hover;
+
+  // TagsView
+  tags-view-height: $tags-view-height;
+
+  // 菜单
   menu-background: $menu-background;
   menu-text: $menu-text;
   menu-active-text: $menu-active-text;
   menu-hover: $menu-hover;
-  sidebar-width: $sidebar-width;
-  navbar-height: $navbar-height;
-  tags-view-height: $tags-view-height;
 }

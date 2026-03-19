@@ -6,7 +6,6 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import __PACKAGE_JSON__ from './package.json'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
 // 平台的信息
 const __APP_INFO__ = {
@@ -39,8 +38,7 @@ export default ({ mode }) => {
           // Auto register Element Plus components
           ElementPlusResolver()
         ]
-      }),
-      vueDevTools()
+      })
     ],
     // configure path alias
     resolve: {

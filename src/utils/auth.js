@@ -30,3 +30,11 @@ export const checkTimestamp = () => {
   // 校验时间差是否小于等于超时时间
   return diff <= TIMEOUT // 超时时间内有效
 }
+
+/**
+ * 获取 token
+ * @returns {string} token
+ */
+export const getAccessToken = () => {
+  return storage.get(STORAGE_KEYS.ACCESS_TOKEN_KEY)
+}

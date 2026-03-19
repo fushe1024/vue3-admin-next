@@ -6,9 +6,7 @@ import screenfull from 'screenfull'
 const isFullscreen = ref(false)
 
 // 切换全屏图标名称
-const iconName = computed(() => {
-  return isFullscreen.value ? 'fullscreen-exit' : 'fullscreen'
-})
+const iconName = computed(() => (isFullscreen.value ? 'fullscreen-exit' : 'fullscreen'))
 
 // 切换全屏
 const toggleFullscreen = () => {

@@ -10,9 +10,10 @@ store.use(piniaPluginPersistedstate)
 export function setupStore(app) {
   app.use(store)
 }
+
 // 全局注册状态管理模块
-export * from './modules/user-store'
-export * from './modules/app-store'
-export * from './modules/settings-store'
+export * from './modules/user'
+export * from './modules/app'
+export * from './modules/settings'
 export * from './modules/tags-view'
 export { store }

@@ -1,6 +1,4 @@
-<script setup>
-import { Bell } from '@element-plus/icons-vue'
-</script>
+<script setup></script>
 
 <template>
   <el-dropdown trigger="click">

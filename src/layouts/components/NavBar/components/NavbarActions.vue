@@ -1,5 +1,4 @@
 <script setup>
-import { Setting } from '@element-plus/icons-vue'
 import { useUserStore, useSettingsStore } from '@/store'
 
 const userStore = useUserStore()

@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { useUserStore } from '@/store'
-import { checkTimestamp } from './auth'
+import { useUserStoreHook } from '@/store/modules/user'
+import { useAppStoreHook } from '@/store/modules/app'
+import { checkTimestamp, getAccessToken } from './auth'
 
 // 创建 axios 实例
 const request = axios.create({
@@ -11,19 +12,25 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   (config) => {
-    // 在发送请求之前做些什么
-    const userStore = useUserStore()
+    const userStore = useUserStoreHook()
+    const appStore = useAppStoreHook()
+
     // 添加 icode
     config.headers.icode = 'helloqianduanxunlianying'
 
+    // 设置国际化
+    config.headers['Accept-Language'] = appStore.language
+
+    const token = getAccessToken()
+
     // 是否存在 token
-    if (userStore.token) {
+    if (token) {
       // 添加 token
-      config.headers.Authorization = `Bearer ${userStore.token}`
+      config.headers.Authorization = `Bearer ${token}`
 
       // 判断是否超时
       if (!checkTimestamp()) {
-        useUserStore().logout()
+        userStore.logout()
         ElMessage.error('登录过期，请重新登录')
         return Promise.reject(new Error('登录过期，请重新登录'))
       }
@@ -51,9 +58,13 @@ request.interceptors.response.use(
   },
   (error) => {
     // 对响应错误做点什么
+    const userStore = useUserStoreHook()
+
+    // 处理 401 错误（token 过期或无效）
     if (error.response && error.response.data && error.response.data.code === 401) {
-      useUserStore().logout()
+      userStore.logout()
     }
+
     ElMessage.error(error.message)
     return Promise.reject(error)
   }

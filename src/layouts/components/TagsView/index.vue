@@ -109,7 +109,6 @@ const refreshSelectedTag = (tag) => {
  */
 const closeSelectedTag = (tag) => {
   if (!tag) return
-
   tagsViewStore.closeCurrentView(tag)
 }
 
@@ -118,7 +117,14 @@ const closeSelectedTag = (tag) => {
  */
 const closeLeftTags = () => {
   if (!selectedTag.value) return
-  tagsViewStore.delLeftViews(selectedTag.value)
+  tagsViewStore.delLeftViews(selectedTag.value).then((result) => {
+    const hasCurrentRoute = result.some((item) => item.path === route.path)
+
+    // 如果删除左侧标签后，当前路由不在标签列表中，则跳转到最后一个标签
+    if (!hasCurrentRoute) {
+      tagsViewStore.toLastView(result)
+    }
+  })
 }
 
 /**
@@ -126,7 +132,14 @@ const closeLeftTags = () => {
  */
 const closeRightTags = () => {
   if (!selectedTag.value) return
-  tagsViewStore.delRightViews(selectedTag.value)
+  tagsViewStore.delRightViews(selectedTag.value).then((result) => {
+    const hasCurrentRoute = result.some((item) => item.path === route.path)
+
+    // 如果删除右侧标签后，当前路由不在标签列表中，则跳转到最后一个标签
+    if (!hasCurrentRoute) {
+      tagsViewStore.toLastView(result)
+    }
+  })
 }
 
 /**
@@ -134,8 +147,9 @@ const closeRightTags = () => {
  */
 const closeOtherTags = () => {
   if (!selectedTag.value) return
-  router.push(selectedTag.value)
-  tagsViewStore.delOtherViews(selectedTag.value)
+  tagsViewStore.delOtherViews(selectedTag.value).then(() => {
+    router.push(selectedTag.value)
+  })
 }
 
 /**

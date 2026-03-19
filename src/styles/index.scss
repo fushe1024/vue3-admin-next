@@ -1,38 +1,4 @@
-@use 'reset'; // reset style
-@use 'element-plus'; // element-plus  styles
-
-html,
-body {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  font-family:
-    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-    '微软雅黑', Arial, sans-serif;
-  line-height: inherit;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizelegibility;
-}
-
-#app {
-  height: 100%;
-  width: 100%;
-}
-
-// nprogress 进度条颜色
-#nprogress .bar {
-  background: var(--el-color-primary);
-}
-
-// app 主体内容区域
-.app-container {
-  height: 100%;
-  padding: 15px;
-}
-
-// 小文本样式
-.text-xs {
-  font-size: 12px;
-}
+@use './reset'; // 基础重置
+@use './variables' as *; // 主题变量
+@use './element-plus'; // UI 框架适配
+@use './common'; // 业务通用样式

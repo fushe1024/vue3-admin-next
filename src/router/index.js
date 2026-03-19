@@ -8,8 +8,7 @@ export const constantRoutes = [...publicRoutes, ...privateRoutes]
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: constantRoutes,
-  // 刷新时，滚动条位置还原
-  scrollBehavior: () => ({ left: 0, top: 0 })
+  scrollBehavior: () => ({ left: 0, top: 0 }) // 刷新时，滚动条位置还原
 })
 
 // 全局注册路由

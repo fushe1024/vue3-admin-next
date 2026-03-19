@@ -23,7 +23,6 @@ const { isSidebarOpen, isShowLogo } = useLayout()
 </template>
 
 <style scoped lang="scss">
-// 侧边栏
 .layout-sidebar {
   width: $sidebar-width;
   background-color: $menu-background;
@@ -42,6 +41,14 @@ const { isSidebarOpen, isShowLogo } = useLayout()
   // 移除菜单边框
   :deep(.el-menu) {
     border: none;
+    background-color: $menu-background;
+    height: 100%;
   }
+}
+
+// 覆盖 el-menu-item 组件的默认样式
+* {
+  --el-menu-text-color: var(--menu-text);
+  --el-menu-hover-bg-color: var(--menu-hover);
 }
 </style>

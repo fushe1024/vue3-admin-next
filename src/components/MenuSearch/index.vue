@@ -1,7 +1,7 @@
 <script setup>
-import { Search, Close } from '@element-plus/icons-vue'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { Close } from '@element-plus/icons-vue'
 
 const router = useRouter()
 
@@ -74,7 +74,7 @@ const onGo = (item) => {
     <el-dialog
       class="el-dialog"
       v-model="visible"
-      width="30%"
+      width="45%"
       top="20vh"
       :show-close="false"
       @close="close"

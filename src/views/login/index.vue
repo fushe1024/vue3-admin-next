@@ -1,12 +1,14 @@
 <script setup>
-import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import { useUserStore } from '@/store'
-import { ElMessage } from 'element-plus'
+import { User, Lock } from '@element-plus/icons-vue'
 import { defaultSettings } from '@/settings'
 import logo from '@/assets/logo.png'
 import { useI18n } from 'vue-i18n'
+import { useRouter, useRoute } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const { t } = useI18n()
 
 const userStore = useUserStore()
@@ -39,20 +41,21 @@ const rules = {
 const formRef = ref(null)
 
 // 登录提交
-const submitForm = () => {
+const submitForm = async () => {
   if (!formRef.value) return
 
   // 校验表单
-  formRef.value.validate(async (valid) => {
-    if (valid) {
-      await userStore.login(loginData)
-    }
+  await formRef.value.validate(() => {
+    userStore.login(loginData).then(() => {
+      // 登录成功后，跳转到之前的页面，或者默认跳转到首页
+      router.push(route.query.redirect || '/')
+    })
   })
 }
 
 // 忘记密码
 const handleForgetPassword = () => {
-  ElMessage.success(t('login.resetPassword'))
+  console.log('待完善')
 }
 </script>
 
@@ -66,9 +69,9 @@ const handleForgetPassword = () => {
         <!-- 标题 -->
         <div class="info-container">
           <h1 class="title">{{ defaultSettings.title }}</h1>
-          <div class="version-box">
-            <span class="version">Version</span>
-            <el-badge :value="`v${defaultSettings.version}`" type="primary" />
+          <div class="version">
+            <span class="version-text">Version</span>
+            <el-tag type="primary">v{{ defaultSettings.version }}</el-tag>
           </div>
         </div>
       </div>
@@ -129,6 +132,7 @@ const handleForgetPassword = () => {
   background-position: center center;
   background-size: cover;
 
+  // 登录表单容器
   .login-form {
     width: 400px;
     padding: 40px;
@@ -159,41 +163,33 @@ const handleForgetPassword = () => {
       .info-container {
         display: flex;
         flex-direction: column;
-        align-items: space-between;
+        align-items: start;
 
         .title {
           font-size: 20px;
           font-weight: bold;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         }
 
-        // 版本信息容器
-        .version-box {
+        .version {
           display: flex;
           align-items: center;
+          color: #999;
+          font-size: 12px;
 
-          .version {
-            margin-top: 5px;
+          .version-text {
             margin-right: 5px;
-            color: #999;
-            font-size: 12px;
             text-transform: uppercase;
           }
 
-          :deep(.el-badge .el-badge__content) {
-            padding: 0.1rem 0.55rem;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--el-color-primary);
-            background: linear-gradient(135deg, #165dff1f, #4096ff2e);
-            border: 1px solid rgba(22, 93, 255, 0.18);
+          :deep(.el-tag) {
             border-radius: 999px;
           }
         }
       }
     }
 
-    // 登录表单标题
+    // 登录文字
     .form-title {
       margin: 0 0 0.75rem;
       font-weight: 600;

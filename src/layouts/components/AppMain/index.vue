@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { useSettingsStore } from '@/store'
 import variables from '@/styles/variables.module.scss'
-import { ArrowUp } from '@element-plus/icons-vue'
 
 // 主体内容区域高度
 const appMainHeight = computed(() => {
