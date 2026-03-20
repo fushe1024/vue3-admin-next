@@ -24,3 +24,10 @@ export const deleteUserApi = (id) => {
   // 注意: delete 单词书写错误未改, 暂时使用 detele
   return request.get(`/user-manage/detele/${id}`)
 }
+
+/**
+ * 获取全部员工数据
+ */
+export const getAllUserManageApi = () => {
+  return request.get('/user-manage/all-list')
+}

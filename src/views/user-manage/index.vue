@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import {
   Search,
   Refresh,
@@ -14,27 +14,27 @@ import { getUserManageListApi, deleteUserApi } from '@/api/user-manage'
 import { watchLanguageChange } from '@/utils/i18n'
 import { formatDate } from '@/utils/format'
 import { useI18n } from 'vue-i18n'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import ImportDialog from './components/importDialog.vue'
+import { ElMessage } from 'element-plus'
+import ImportDialog from './components/ImportDialog.vue'
+import ExportDialog from './components/ExportDialog.vue'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
 
-const formRef = ref(null)
+const formRef = ref(null) // 查询表单引用
 const searchForm = reactive({
-  keyword: '',
-  status: ''
+  keyword: '', // 查询关键词
+  status: '' // 查询状态
 })
 
-// 用户列表
-const userList = ref([])
-// 加载状态
-const loading = ref(false)
+const userList = ref([]) // 用户列表
+const loading = ref(false) // 加载状态
 
 // 分页数据
 const paginationData = reactive({
   currentPage: 1, // 当前页码
   pageSize: 5, // 每页条数
-  total: 0
+  total: 0 // 总条数
 })
 
 // 获取用户列表
@@ -48,22 +48,20 @@ const getUserList = async () => {
   paginationData.total = res.total
   loading.value = false
 }
-onMounted(getUserList)
+getUserList()
+
+// 监听语言变化
+watchLanguageChange(getUserList)
 
 // 分页改变时触发
 const handlePaginationChange = () => {
   getUserList()
 }
 
-// 监听语言变化
-watchLanguageChange(getUserList)
-
-// 查询
+// 查询 & 重置逻辑
 const handleQuery = () => {
   console.log(searchForm)
 }
-
-// 重置
 const handleReset = () => {
   if (!formRef.value) return
   formRef.value.resetFields()
@@ -74,11 +72,6 @@ const handleAddUser = () => {
   console.log('新增用户')
 }
 
-// 导出
-const handleExport = () => {
-  console.log('导出！！！！!!!')
-}
-
 // 选中用户ID
 const selectedUsersId = ref([])
 const isDelBtnDisabled = computed(() => selectedUsersId.value.length === 0)
@@ -86,8 +79,9 @@ const handleSelectionChange = (val) => {
   selectedUsersId.value = val.map((item) => item.id)
 }
 
-// 删除选中用户
+// 删除逻辑
 const deleteUser = (id = null) => {
+  /* eslint-disable-next-line no-undef */
   ElMessageBox.confirm(t('userManage.removeConfirm'), t('userManage.removeDialogTitle'), {
     cancelButtonText: t('userManage.cancel'),
     confirmButtonText: t('userManage.confirm'),
@@ -108,22 +102,29 @@ const deleteUser = (id = null) => {
   })
 }
 
-// 导入弹窗是否可见
-const dialogVisible = ref(false)
-
-/**
- * 打开弹窗
- */
+// 导入逻辑
+const dialogVisible = ref(false) // 导入弹窗显示状态
 const openDialog = () => {
   dialogVisible.value = true
 }
-
-/**
- * 导入成功回调
- */
 const importSuccess = () => {
   getUserList()
   ElMessage.success('导入成功')
+}
+
+// 导出逻辑
+const dialogStatus = ref(false) // 导出弹窗显示状态
+const handleExport = () => {
+  dialogStatus.value = true
+}
+const exportSuccess = () => {
+  ElMessage.success('导出成功，请下载文件')
+}
+
+// 查看用户详情
+const router = useRouter()
+const handleViewUser = (user) => {
+  router.push(`/user/info/${user._id}`)
 }
 </script>
 
@@ -305,7 +306,13 @@ const importSuccess = () => {
           <!-- 查看、编辑、删除列 -->
           <el-table-column :label="$t('userManage.action')" fixed="right" width="200">
             <template #default="{ row }">
-              <el-button type="primary" size="small" text :icon="View">
+              <el-button
+                type="primary"
+                size="small"
+                text
+                :icon="View"
+                @click="handleViewUser(row)"
+              >
                 {{ $t('userManage.show') }}
               </el-button>
               <el-button type="primary" size="small" text :icon="Edit">
@@ -341,6 +348,9 @@ const importSuccess = () => {
 
     <!-- 导入数据弹窗 -->
     <import-dialog v-model="dialogVisible" @import-success="importSuccess" />
+
+    <!-- 导出数据弹窗 -->
+    <export-dialog v-model="dialogStatus" @export-success="exportSuccess" />
   </div>
 </template>
 

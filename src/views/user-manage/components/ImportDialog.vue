@@ -5,9 +5,9 @@ import * as XLSX from 'xlsx'
 import { getHeaderRow } from '@/utils/excel'
 import { batchImportUserApi } from '@/api/user-manage'
 import { isExcelFile } from '@/utils'
-import { generateImportData } from './generate'
+import { generateImportData } from '../utils/generate'
 
-// 导入弹窗是否可见
+// 弹窗是否可见
 const visible = defineModel('modelValue', {
   type: Boolean,
   required: true,
@@ -47,7 +47,7 @@ const confirmImport = async () => {
   // 异步读取 excel 文件内容
   const excelData = await readExcelFile(file)
 
-  // 整理数据
+  // 整理导入数据
   const importData = generateImportData(excelData)
 
   // 导入用户
@@ -83,15 +83,6 @@ const readExcelFile = (file) => {
     reader.onerror = (error) => reject(error)
   })
 }
-
-/**
- * 下载导入模板
- */
-// const downloadTemplate = () => {
-//   UserAPI.downloadTemplate().then((response) => {
-//     downloadFile(response)
-//   })
-// }
 
 /**
  * 关闭弹窗

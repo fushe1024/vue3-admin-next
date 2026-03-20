@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useUserStoreHook } from '@/store/modules/user'
 import { useAppStoreHook } from '@/store/modules/app'
 import { checkTimestamp, getAccessToken } from './auth'
+import { ElMessage } from 'element-plus'
 
 // 创建 axios 实例
 const request = axios.create({
