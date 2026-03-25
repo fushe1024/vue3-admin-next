@@ -17,6 +17,8 @@ import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import ImportDialog from './components/ImportDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
+import EditDrawer from './components/EditDrawer.vue'
+
 import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
@@ -64,7 +66,7 @@ const handleQuery = () => {
 }
 const handleReset = () => {
   if (!formRef.value) return
-  formRef.value.resetFields()
+  formRef.value?.resetFields()
 }
 
 // 新增用户
@@ -126,12 +128,28 @@ const router = useRouter()
 const handleViewUser = (user) => {
   router.push(`/user/info/${user._id}`)
 }
+
+// 抽屉是否可见
+const drawerVisible = ref(false)
+const userId = ref('') // 用户ID
+
+// 编辑用户
+const editUser = (user) => {
+  drawerVisible.value = true
+  userId.value = user._id
+}
+
+// 确认编辑回调
+const confirmEdit = () => {
+  getUserList()
+  ElMessage.success('更新成功')
+}
 </script>
 
 <template>
   <div class="user-manage">
     <!-- 筛选表单 -->
-    <div class="filter-section">
+    <div class="filter-section app-card">
       <el-form ref="formRef" :inline="true" :model="searchForm" class="demo-form-inline">
         <el-form-item :label="$t('userManage.keywords')" prop="keyword">
           <el-input
@@ -304,7 +322,7 @@ const handleViewUser = (user) => {
           </el-table-column>
 
           <!-- 查看、编辑、删除列 -->
-          <el-table-column :label="$t('userManage.action')" fixed="right" width="200">
+          <el-table-column :label="$t('userManage.action')" fixed="right" width="210">
             <template #default="{ row }">
               <el-button
                 type="primary"
@@ -315,7 +333,13 @@ const handleViewUser = (user) => {
               >
                 {{ $t('userManage.show') }}
               </el-button>
-              <el-button type="primary" size="small" text :icon="Edit">
+              <el-button
+                type="primary"
+                size="small"
+                text
+                :icon="Edit"
+                @click="editUser(row)"
+              >
                 {{ $t('userManage.edit') }}
               </el-button>
               <el-button
@@ -351,20 +375,14 @@ const handleViewUser = (user) => {
 
     <!-- 导出数据弹窗 -->
     <export-dialog v-model="dialogStatus" @export-success="exportSuccess" />
+
+    <!-- 编辑用户抽屉 -->
+    <edit-drawer v-model="drawerVisible" :user-id="userId" @confirm-edit="confirmEdit" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .user-manage {
-  // 筛选区域
-  .filter-section {
-    padding: 12px 12px 0;
-    margin-bottom: 8px;
-    background-color: var(--el-bg-color-overlay);
-    border: 1px solid var(--el-border-color-light);
-    border-radius: 4px;
-  }
-
   // 表格区域
   .table-section__body {
     margin: 8px 0px 20px;

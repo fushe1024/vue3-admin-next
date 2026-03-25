@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>个人中心</div>
+  <el-card> 个人中心 </el-card>
 </template>
 
 <style scoped lang="scss"></style>

@@ -31,3 +31,30 @@ export const deleteUserApi = (id) => {
 export const getAllUserManageApi = () => {
   return request.get('/user-manage/all-list')
 }
+
+/**
+ * 获取用户详情
+ * @param {*} id 用户ID
+ */
+export const getUserInfoApi = (id) => {
+  return request.get(`/user-manage/detail/${id}`)
+}
+
+/**
+ * 获取指定用户角色
+ * @param {*} id 用户ID
+ */
+export const getUserRoleApi = (id) => {
+  return request.get(`/user-manage/role/${id}`)
+}
+
+/**
+ * 更新指定用户角色
+ * @param {*} id 用户ID
+ * @param {*} roles 角色数据
+ */
+export const updateUserRoleApi = (id, roles) => {
+  return request.post(`/user-manage/update-role/${id}`, {
+    roles
+  })
+}
