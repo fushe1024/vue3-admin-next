@@ -6,7 +6,8 @@ import { setTimestamp } from '@/utils/auth'
 import { store } from '@/store'
 import { STORAGE_KEYS } from '@/constants'
 import storage from '@/utils/storage'
-import router from '@/router'
+import router, { resetRoutes } from '@/router'
+import { useTagsViewStore } from './tags-view'
 
 export const useUserStore = defineStore('user', () => {
   // Token 相关
@@ -23,6 +24,9 @@ export const useUserStore = defineStore('user', () => {
     userInfo.value = info
   }
 
+  // 权限点
+  const permissions = computed(() => userInfo.value.permission)
+
   // 登录逻辑
   const login = ({ username, password }) => {
     return new Promise((resolve, reject) => {
@@ -38,8 +42,12 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  const tagsViewStore = useTagsViewStore()
+
   // 退出登录
   const logout = () => {
+    tagsViewStore.delAllViews()
+    resetRoutes(permissions.value.menus)
     setToken('')
     setUserInfo({})
     router.push('/login')
@@ -55,6 +63,7 @@ export const useUserStore = defineStore('user', () => {
     token,
     userInfo,
     hasUserInfo,
+    permissions,
     setToken,
     login,
     setUserInfo,

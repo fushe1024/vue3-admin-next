@@ -186,10 +186,16 @@ const confirmEdit = () => {
       <el-row class="table-section__toolbar" justify="space-between">
         <!-- 新增删除按钮区域 -->
         <el-col :span="12">
-          <el-button type="success" :icon="Plus" @click="handleAddUser">
+          <el-button
+            v-hasPerm="['importUser']"
+            type="success"
+            :icon="Plus"
+            @click="handleAddUser"
+          >
             {{ $t('userManage.newAdd') }}
           </el-button>
           <el-button
+            v-hasPerm="['removeUser']"
             type="danger"
             :icon="Delete"
             :disabled="isDelBtnDisabled"
@@ -202,7 +208,7 @@ const confirmEdit = () => {
         <!-- 导入导出按钮区域 -->
         <el-col :span="12">
           <el-row justify="end">
-            <el-button :icon="Upload" @click="openDialog">
+            <el-button v-hasPerm="['importUser']" :icon="Upload" @click="openDialog">
               {{ $t('userManage.import') }}
             </el-button>
             <el-button :icon="Download" @click="handleExport">
@@ -334,6 +340,7 @@ const confirmEdit = () => {
                 {{ $t('userManage.show') }}
               </el-button>
               <el-button
+                v-hasPerm="['distributeRole']"
                 type="primary"
                 size="small"
                 text
@@ -343,6 +350,7 @@ const confirmEdit = () => {
                 {{ $t('userManage.edit') }}
               </el-button>
               <el-button
+                v-hasPerm="['removeUser']"
                 type="danger"
                 size="small"
                 text

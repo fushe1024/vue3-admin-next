@@ -1,6 +1,7 @@
-import router from '@/router'
+import router, { dynamicRoutes, globalRoutes } from '@/router'
 import NProgress from '@/plugins/nprogress'
 import { useUserStoreHook } from '@/store/modules/user'
+import { filterRoutesByPermission } from '../ulils'
 
 export function setupPermissionGuard() {
   // 白名单
@@ -32,13 +33,28 @@ export function setupPermissionGuard() {
     // 如果没有用户信息，获取用户信息
     if (!userStore.hasUserInfo) {
       await userStore.getUserInfo()
+
+      // 过滤路由表，根据用户权限
+      const filteredRoutes = filterRoutesByPermission(
+        dynamicRoutes,
+        userStore.permissions
+      )
+
+      // 添加过滤后的路由
+      filteredRoutes.forEach((route) => router.addRoute(route))
+
+      // 添加全局路由
+      router.addRoute(globalRoutes)
+
+      next({ ...to, replace: true })
+      return
     }
 
     next()
   })
-}
 
-// 路由后置守卫
-router.afterEach(() => {
-  NProgress.done()
-})
+  // 路由后置守卫
+  router.afterEach(() => {
+    NProgress.done()
+  })
+}

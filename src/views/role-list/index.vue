@@ -128,7 +128,7 @@ const tableRowClassName = (data) => {
     <!-- 角色列表 -->
     <el-card>
       <el-row style="margin-bottom: 10px">
-        <el-button type="primary" :icon="Plus"> 新增 </el-button>
+        <el-button type="success" :icon="Plus"> 新增 </el-button>
         <el-button type="danger" :icon="Delete"> 删除 </el-button>
       </el-row>
       <el-table
@@ -148,6 +148,7 @@ const tableRowClassName = (data) => {
         <el-table-column label="操作" width="210">
           <template #default="{ row }">
             <el-button
+              v-hasPerm="['distributePermission']"
               type="primary"
               size="small"
               text

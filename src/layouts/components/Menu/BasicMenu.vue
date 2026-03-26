@@ -1,20 +1,19 @@
 <script setup>
 import MenuItem from './components/MenuItem.vue'
 import { useAppStore, useSettingsStore } from '@/store'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { generateMenuFromRoutes } from '@/utils/route'
-import { constantRoutes } from '@/router'
+import { mergeRoutesByPath, generateMenuFromRoutes } from '@/utils/route'
 
-const menuRef = ref(null)
-
+const router = useRouter()
 const appStore = useAppStore()
 const settingsStore = useSettingsStore()
 
-// 路由实例
-const router = useRouter()
+// 合并路由表，根据路径合并子路由
+const mergedRoutes = mergeRoutesByPath(router.getRoutes())
 
-const menuItems = generateMenuFromRoutes(constantRoutes)
+// 从路由表中生成菜单项
+const menuItems = generateMenuFromRoutes(mergedRoutes)
 
 // 获取当前激活的菜单路径
 const activePath = computed(() => router.currentRoute.value.path)
@@ -22,7 +21,6 @@ const activePath = computed(() => router.currentRoute.value.path)
 
 <template>
   <el-menu
-    ref="menuRef"
     :default-active="activePath"
     :collapse="!appStore.sidebar.opened"
     :popper-effect="settingsStore.theme"
@@ -34,5 +32,3 @@ const activePath = computed(() => router.currentRoute.value.path)
     <MenuItem v-for="route in menuItems" :key="route.path" :item="route" />
   </el-menu>
 </template>
-
-<style scoped lang="scss"></style>
