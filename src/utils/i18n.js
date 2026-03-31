@@ -1,6 +1,6 @@
 // translate router.meta.title, be used in breadcrumb sidebar tagsview
 import i18n from '@/i18n'
-import { useAppStoreHook } from '@/store'
+import { useAppStoreHook } from '@/store/modules/app'
 import { watch } from 'vue'
 
 /**

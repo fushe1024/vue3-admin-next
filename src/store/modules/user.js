@@ -47,7 +47,12 @@ export const useUserStore = defineStore('user', () => {
   // 退出登录
   const logout = () => {
     tagsViewStore.delAllViews()
-    resetRoutes(permissions.value.menus)
+
+    // 如果用户有菜单权限，则重置路由
+    if (permissions.value.menus) {
+      resetRoutes(permissions.value.menus)
+    }
+
     setToken('')
     setUserInfo({})
     router.push('/login')
