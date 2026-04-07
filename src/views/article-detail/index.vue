@@ -47,7 +47,7 @@ const handleArticleEdit = () => {
     <el-divider />
 
     <div class="content">
-      <p>{{ articleDetail.content }}</p>
+      <div v-html="articleDetail.content"></div>
     </div>
   </el-card>
 </template>

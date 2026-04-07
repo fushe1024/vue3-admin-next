@@ -13,8 +13,8 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   (config) => {
-    const userStore = useUserStoreHook()
     const appStore = useAppStoreHook()
+    const userStore = useUserStoreHook()
 
     // 添加 icode
     config.headers.icode = 'helloqianduanxunlianying'

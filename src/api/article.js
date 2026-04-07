@@ -26,3 +26,21 @@ export const getArticleDetailApi = (id) => {
 export const deleteArticleApi = (id) => {
   return request.get(`/article/delete/${id}`)
 }
+
+/**
+ * 创建文章
+ * @param {*} data - 文章数据
+ * @returns
+ */
+export const createArticleApi = (data) => {
+  return request.post('/article/create', data)
+}
+
+/**
+ * 更新文章
+ * @param {*} data - 文章数据
+ * @returns
+ */
+export const updateArticleApi = (data) => {
+  return request.post('/article/edit', data)
+}

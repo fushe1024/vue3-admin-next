@@ -133,6 +133,11 @@ export const useTagsViewStore = defineStore(
       })
     }
 
+    // 清空 tagView 列表
+    const clearTagsViewList = () => {
+      tagsViewList.value = []
+    }
+
     return {
       tagsViewList,
       isActive,
@@ -145,10 +150,9 @@ export const useTagsViewStore = defineStore(
       delRightViews,
       delOtherViews,
       delAllViews,
-      closeCurrentView
+      closeCurrentView,
+      clearTagsViewList
     }
   },
-  {
-    persist: true
-  }
+  { persist: true }
 )

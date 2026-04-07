@@ -1,7 +1,7 @@
 import router, { dynamicRoutes, globalRoutes } from '@/router'
 import NProgress from '@/plugins/nprogress'
 import { useUserStoreHook } from '@/store/modules/user'
-import { filterRoutesByPermission } from '../ulils'
+import { filterRoutesByPermission } from '../utils'
 
 export function setupPermissionGuard() {
   // 白名单
@@ -19,7 +19,6 @@ export function setupPermissionGuard() {
         next()
       } else {
         next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
-        NProgress.done()
       }
       return
     }
@@ -30,22 +29,21 @@ export function setupPermissionGuard() {
       return
     }
 
-    // 如果没有用户信息，获取用户信息
+    // 已经登陆
     if (!userStore.hasUserInfo) {
       await userStore.getUserInfo()
 
-      // 过滤路由表，根据用户权限
+      // 根据用户权限，过滤路由表
       const filteredRoutes = filterRoutesByPermission(
         dynamicRoutes,
-        userStore.permissions
+        userStore.userInfo.permission.menus
       )
 
-      // 添加过滤后的路由
+      // 添加过滤后的路由 & 全局路由
       filteredRoutes.forEach((route) => router.addRoute(route))
-
-      // 添加全局路由
       router.addRoute(globalRoutes)
 
+      // 添加路由后
       next({ ...to, replace: true })
       return
     }

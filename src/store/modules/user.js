@@ -24,10 +24,13 @@ export const useUserStore = defineStore('user', () => {
     userInfo.value = info
   }
 
-  // 权限点
-  const permissions = computed(() => userInfo.value.permission)
+  // 获取用户信息
+  const getUserInfo = async () => {
+    const userInfo = await getUserInfoApi()
+    setUserInfo(userInfo)
+  }
 
-  // 登录逻辑
+  // 登录
   const login = ({ username, password }) => {
     return new Promise((resolve, reject) => {
       loginApi({ username, password: md5(password) })
@@ -42,33 +45,22 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  // 退出登录
   const tagsViewStore = useTagsViewStore()
 
-  // 退出登录
   const logout = () => {
-    tagsViewStore.delAllViews()
-
-    // 如果用户有菜单权限，则重置路由
-    if (permissions.value.menus) {
-      resetRoutes(permissions.value.menus)
-    }
-
-    setToken('')
-    setUserInfo({})
+    tagsViewStore.clearTagsViewList()
+    resetRoutes(userInfo.value.permission.menus) // 重置路由表
+    storage.clear() // 清除存储
+    setUserInfo({}) // 清空用户信息
+    setToken('') // 清空 token
     router.push('/login')
-  }
-
-  // 获取用户信息
-  const getUserInfo = async () => {
-    const userInfo = await getUserInfoApi()
-    setUserInfo(userInfo)
   }
 
   return {
     token,
     userInfo,
     hasUserInfo,
-    permissions,
     setToken,
     login,
     setUserInfo,

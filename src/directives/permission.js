@@ -5,7 +5,7 @@ export const hasPerm = {
     const userStore = useUserStoreHook()
 
     // 获取用户权限点
-    const permissions = userStore.permissions.points || []
+    const permission = userStore.userInfo.permission.points || []
 
     // 获取指令参数
     const value = binding.value
@@ -15,8 +15,8 @@ export const hasPerm = {
 
     // 检查用户是否有指定权限点中的任意一个
     const hasPermission = Array.isArray(value)
-      ? value.some((p) => permissions.includes(p))
-      : permissions.includes(value)
+      ? value.some((p) => permission.includes(p))
+      : permission.includes(value)
 
     // 如果用户没有指定权限点，移除元素
     if (!hasPermission) {
