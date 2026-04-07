@@ -6,7 +6,6 @@
  */
 export const filterRoutesByPermission = (routes, permissions) => {
   return routes.filter((route) => {
-    const { menus } = permissions
-    return menus.includes(route.name)
+    return permissions.includes(route.name)
   })
 }
