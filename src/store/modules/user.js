@@ -6,7 +6,8 @@ import { setTimestamp } from '@/utils/auth'
 import { store } from '@/store'
 import { STORAGE_KEYS } from '@/constants'
 import storage from '@/utils/storage'
-import router, { resetRoutes } from '@/router'
+import router from '@/router'
+import { resetPermissionRoutes } from '@/router/guards/permission'
 import { useTagsViewStore } from './tags-view'
 
 export const useUserStore = defineStore('user', () => {
@@ -18,10 +19,11 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 用户信息
-  const userInfo = ref({})
+  const userInfo = ref(storage.get(STORAGE_KEYS.USER_INFO_KEY) || {})
   const hasUserInfo = computed(() => Object.keys(userInfo.value).length > 0)
   const setUserInfo = (info) => {
     userInfo.value = info
+    storage.set(STORAGE_KEYS.USER_INFO_KEY, info)
   }
 
   // 获取用户信息
@@ -49,11 +51,17 @@ export const useUserStore = defineStore('user', () => {
   const tagsViewStore = useTagsViewStore()
 
   const logout = () => {
+    // 清空标签页列表
     tagsViewStore.clearTagsViewList()
-    resetRoutes(userInfo.value.permission.menus) // 重置路由表
+
+    // 清空用户信息和 token
+    setToken('')
+    setUserInfo({})
+
+    // 重置权限路由
+    resetPermissionRoutes()
+
     storage.clear() // 清除存储
-    setUserInfo({}) // 清空用户信息
-    setToken('') // 清空 token
     router.push('/login')
   }
 

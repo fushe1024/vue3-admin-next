@@ -10,6 +10,9 @@ export const STORAGE_KEYS = {
   ACCESS_TOKEN_KEY: `${APP_PREFIX}:auth:access_token`, // 访问令牌
   REFRESH_TOKEN_KEY: `${APP_PREFIX}:auth:refresh_token`, // 刷新令牌
 
+  // 用户信息相关
+  USER_INFO_KEY: `${APP_PREFIX}:user:info`, // 用户信息
+
   // 用户认证相关
   TIMESTAMP_KEY: `${APP_PREFIX}:auth:timestamp`, // 最近一次操作时间戳
 

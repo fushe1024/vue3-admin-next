@@ -1,19 +1,24 @@
 import router, { dynamicRoutes, globalRoutes } from '@/router'
 import NProgress from '@/plugins/nprogress'
 import { useUserStoreHook } from '@/store/modules/user'
-import { filterRoutesByPermission } from '../utils'
+import { filterRoutesByPermission } from './utils'
 
+// 控制动态路由是否已经添加
+let isRoutesAdded = false
+
+// 记录已经添加的动态路由名称
+let addedRouteNames = []
+
+// 路由守卫：权限守卫
 export function setupPermissionGuard() {
-  // 白名单
   const whiteList = ['/login', '/404', '/401']
 
-  // 路由前置守卫
   router.beforeEach(async (to, from, next) => {
     NProgress.start()
 
     const userStore = useUserStoreHook()
 
-    // 未登录处理
+    // 检查用户是否登录
     if (!userStore.token) {
       if (whiteList.includes(to.path)) {
         next()
@@ -23,27 +28,37 @@ export function setupPermissionGuard() {
       return
     }
 
-    // 已登录访问登录页，重定向到首页
+    // 已经登录，访问登录页
     if (to.path === '/login') {
       next({ path: '/' })
       return
     }
 
-    // 已经登陆
-    if (!userStore.hasUserInfo) {
-      await userStore.getUserInfo()
+    // 检查路由是否已经添加
+    if (!isRoutesAdded) {
+      // 检查用户信息是否已经获取
+      if (!userStore.hasUserInfo) {
+        await userStore.getUserInfo()
+      }
 
-      // 根据用户权限，过滤路由表
+      // 筛选出用户有权限的路由
       const filteredRoutes = filterRoutesByPermission(
         dynamicRoutes,
         userStore.userInfo.permission.menus
       )
 
-      // 添加过滤后的路由 & 全局路由
-      filteredRoutes.forEach((route) => router.addRoute(route))
+      // 动态添加路由 & 记录路由名称
+      filteredRoutes.forEach((route) => {
+        router.addRoute(route)
+        addedRouteNames.push(route.name)
+      })
+
+      // 动态添加全局路由
       router.addRoute(globalRoutes)
 
-      // 添加路由后
+      // 标记路由已添加
+      isRoutesAdded = true
+
       next({ ...to, replace: true })
       return
     }
@@ -51,8 +66,20 @@ export function setupPermissionGuard() {
     next()
   })
 
-  // 路由后置守卫
+  // 路由守卫：权限守卫 - 后置守卫
   router.afterEach(() => {
     NProgress.done()
   })
+}
+
+// 重置权限路由
+export function resetPermissionRoutes() {
+  addedRouteNames.forEach((name) => {
+    if (router.hasRoute(name)) {
+      router.removeRoute(name)
+    }
+  })
+
+  addedRouteNames = []
+  isRoutesAdded = false
 }

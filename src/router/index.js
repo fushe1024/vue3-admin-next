@@ -6,13 +6,6 @@ import PermissionList from './modules/permission-list'
 import Article from './modules/article'
 import ArticleCreate from './modules/article-create'
 
-// 全局路由
-export const globalRoutes = {
-  path: '/:pathMatch(.*)*',
-  name: '404',
-  component: () => import('@/views/error/404.vue')
-}
-
 // 动态路由
 export const dynamicRoutes = [
   UserManage,
@@ -21,6 +14,13 @@ export const dynamicRoutes = [
   Article,
   ArticleCreate
 ]
+
+// 全局路由
+export const globalRoutes = {
+  path: '/:pathMatch(.*)*',
+  name: '404',
+  component: () => import('@/views/error/404.vue')
+}
 
 // 静态路由
 export const constantRoutes = [
@@ -66,14 +66,6 @@ const router = createRouter({
   routes: constantRoutes,
   scrollBehavior: () => ({ left: 0, top: 0 }) // 刷新时，滚动条位置还原
 })
-
-/**
- * 重置路由表，移除所有动态路由
- * @param {*} permission 用户权限点
- */
-export function resetRoutes(permission) {
-  permission.forEach((name) => router.removeRoute(name))
-}
 
 // 全局注册路由
 export function setupRouter(app) {
