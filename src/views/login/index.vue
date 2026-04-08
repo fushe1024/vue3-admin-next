@@ -45,11 +45,13 @@ const submitForm = async () => {
   if (!formRef.value) return
 
   // 校验表单
-  await formRef.value.validate(() => {
-    userStore.login(loginData).then(() => {
-      // 登录成功后，跳转到之前的页面，或者默认跳转到首页
-      router.push(route.query.redirect || '/')
-    })
+  formRef.value.validate((valid) => {
+    if (valid) {
+      userStore.login(loginData).then(() => {
+        // 登录成功后，跳转到之前的页面，或者默认跳转到首页
+        router.push(route.query.redirect || '/')
+      })
+    }
   })
 }
 

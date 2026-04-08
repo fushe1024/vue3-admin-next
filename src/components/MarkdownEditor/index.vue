@@ -34,11 +34,13 @@ const initEditor = (content = '') => {
     language: appStore.language === 'zh-cn' ? 'zh-CN' : 'en',
     events: {
       change() {
-        const value = editorRef.value.getMarkdown()
+        const value = editorRef.value.getHTML()
         modelValue.value = value
       }
     }
   })
+
+  console.log(editorRef.value)
 }
 
 // 初始化
@@ -52,7 +54,7 @@ watchLanguageChange(() => {
   if (!editor) return
 
   // 保存内容
-  const content = editor.getMarkdown()
+  const content = editor.getHTML()
 
   // 销毁
   editor.destroy()
@@ -69,8 +71,8 @@ watch(modelValue, (val) => {
   const editor = editorRef.value
   if (!editor) return
 
-  if (val !== editor.getMarkdown()) {
-    editor.setMarkdown(val || '')
+  if (val !== editor.getHTML()) {
+    editor.setHTML(val || '')
   }
 })
 

@@ -24,15 +24,6 @@ const editorType = ref('rich') // 编辑器类型
 const markdownContent = ref('') // Markdown 内容
 const richContent = ref('') // 富文本内容
 
-// 设置文章内容
-const setContent = (content) => {
-  if (editorType.value === 'markdown') {
-    markdownContent.value = content
-  } else {
-    richContent.value = content
-  }
-}
-
 // 获取文章内容
 const getContent = () => {
   return editorType.value === 'markdown' ? markdownContent.value : richContent.value
@@ -45,7 +36,8 @@ const getArticleDetail = async () => {
   formData.value.title = res.title
   formData.value.type = res.type
   // TODO: 设置文章使用的编辑器类型
-  setContent(res.content)
+  markdownContent.value = res.content
+  richContent.value = res.content
 }
 getArticleDetail()
 
