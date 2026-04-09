@@ -44,3 +44,12 @@ export const createArticleApi = (data) => {
 export const updateArticleApi = (data) => {
   return request.post('/article/edit', data)
 }
+
+/**
+ * 更新文章排名
+ * @param {*} data - 文章排名数据
+ * @returns
+ */
+export const updateArticleRankingApi = (data) => {
+  return request.post('/article/sort', data)
+}
