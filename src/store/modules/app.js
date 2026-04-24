@@ -6,71 +6,85 @@ import storage from '@/utils/storage'
 import { STORAGE_KEYS } from '@/constants'
 import { store } from '@/store'
 
-// 导入 Element Plus 中英文语言包
+// Element Plus 语言包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
 
 export const useAppStore = defineStore('app', () => {
-  // 侧边栏状态
+  /* -------------------------------- 侧边栏 -------------------------------- */
+
+  // 侧边栏状态（持久化）
   const sidebarStatus = ref(
     storage.get(STORAGE_KEYS.SIDEBAR_STATUS) || SidebarStatus.OPENED
   )
+
+  // 侧边栏 UI 状态
   const sidebar = reactive({
-    opened: sidebarStatus.value === SidebarStatus.OPENED, // 是否打开侧边栏
-    withoutAnimation: false // 是否禁用侧边栏动画
+    opened: sidebarStatus.value === SidebarStatus.OPENED,
+    withoutAnimation: false
   })
 
-  // 本地存储侧边栏状态
-  const storageSidebarStatus = () => {
+  // 持久化侧边栏状态
+  const persistSidebarStatus = () => {
     storage.set(STORAGE_KEYS.SIDEBAR_STATUS, sidebarStatus.value)
   }
 
-  // 布局大小
+  // 同步 sidebar -> status（统一出口）
+  const syncSidebarStatus = () => {
+    sidebarStatus.value = sidebar.opened ? SidebarStatus.OPENED : SidebarStatus.CLOSED
+
+    persistSidebarStatus()
+  }
+
+  /* -------------------------------- 布局大小 -------------------------------- */
+
   const size = ref(storage.get(STORAGE_KEYS.SIZE) || defaultSettings.size)
 
-  // 语言
-  const language = ref(storage.get(STORAGE_KEYS.LANGUAGE) || defaultSettings.language)
-
-  // 语言对应的 Element Plus 语言包
-  const locale = computed(() => (language?.value == 'en' ? en : zhCn))
-
-  // 更改布局大小
+  // 修改布局大小
   const changeSize = (newSize) => {
     size.value = newSize
     storage.set(STORAGE_KEYS.SIZE, newSize)
   }
 
-  // 更改语言
+  /* ---------------------------------- 语言 ---------------------------------- */
+
+  const language = ref(storage.get(STORAGE_KEYS.LANGUAGE) || defaultSettings.language)
+
+  // Element Plus 语言
+  const locale = computed(() => (language.value === 'en' ? en : zhCn))
+
+  // 修改语言
   const changeLanguage = (newLanguage) => {
     language.value = newLanguage
     storage.set(STORAGE_KEYS.LANGUAGE, newLanguage)
   }
 
+  /* ------------------------------ 侧边栏操作 ------------------------------ */
+
   // 切换侧边栏
   const toggleSidebar = () => {
     sidebar.opened = !sidebar.opened
-    sidebarStatus.value = sidebar.opened ? SidebarStatus.OPENED : SidebarStatus.CLOSED
-    storageSidebarStatus()
+    syncSidebarStatus()
   }
 
   // 关闭侧边栏
   const closeSideBar = () => {
     sidebar.opened = false
-    sidebarStatus.value = SidebarStatus.CLOSED
-    storageSidebarStatus()
+    syncSidebarStatus()
   }
 
   // 打开侧边栏
   const openSideBar = () => {
     sidebar.opened = true
-    sidebarStatus.value = SidebarStatus.OPENED
-    storageSidebarStatus()
+    syncSidebarStatus()
   }
 
-  // 切换侧边栏动画状态
+  // 切换动画状态
   const toggleSidebarWithoutAnimation = () => {
     sidebar.withoutAnimation = !sidebar.withoutAnimation
   }
+
+  /* ---------------------------------- 导出 ---------------------------------- */
 
   return {
     // 状态
@@ -88,6 +102,8 @@ export const useAppStore = defineStore('app', () => {
     toggleSidebarWithoutAnimation
   }
 })
+
+/* ------------------------ 组件外使用 store（hook） ------------------------ */
 
 export function useAppStoreHook() {
   return useAppStore(store)

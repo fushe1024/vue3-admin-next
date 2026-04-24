@@ -12,51 +12,63 @@ import {
 export const useSettingsStore = defineStore(
   'setting',
   () => {
-    // 是否显示设置面板
+    /* ---------------------------------- 状态 ---------------------------------- */
+
+    // 设置面板
     const settingsVisible = ref(false)
 
-    // 主题模式（dark / light）
+    // 主题相关
     const theme = ref(defaultSettings.theme)
-
-    // 主题颜色
     const themeColor = ref(defaultSettings.themeColor)
 
-    // 是否显示标签页视图
+    // UI 显示控制
     const showTagsView = ref(defaultSettings.showTagsView)
-
-    // 是否显示应用Logo
     const showAppLogo = ref(defaultSettings.showAppLogo)
-
-    // 是否显示水印
     const showWatermark = ref(defaultSettings.showWatermark)
 
-    // 侧边栏配色方案
+    // 侧边栏
     const sidebarColorScheme = ref(defaultSettings.sidebarColorScheme)
 
-    // 系统主题媒体查询（用于 ThemeMode.AUTO）
+    /* -------------------------------- 系统主题 -------------------------------- */
+
+    // 系统主题监听（dark / light）
     const prefersDarkMedia =
-      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+      typeof window !== 'undefined'
         ? window.matchMedia('(prefers-color-scheme: dark)')
         : null
 
-    function getSystemTheme() {
-      return prefersDarkMedia && prefersDarkMedia.matches
-        ? ThemeMode.DARK
-        : ThemeMode.LIGHT
+    // 获取系统主题
+    const getSystemTheme = () =>
+      prefersDarkMedia?.matches ? ThemeMode.DARK : ThemeMode.LIGHT
+
+    // 获取当前生效主题（AUTO → 跟随系统）
+    const getEffectiveTheme = () =>
+      theme.value === ThemeMode.AUTO ? getSystemTheme() : theme.value
+
+    /* -------------------------------- 主题应用 -------------------------------- */
+
+    // 应用主题（统一入口）
+    const applyCurrentTheme = () => {
+      const effectiveTheme = getEffectiveTheme()
+
+      // 切换暗黑模式
+      toggleDarkMode(effectiveTheme === ThemeMode.DARK)
+
+      // 生成并应用主题色
+      const colors = generateThemeColors(themeColor.value, effectiveTheme)
+      applyTheme(colors)
     }
 
-    // 仅在用户选择自动（跟随系统）时响应系统主题变化
-    function handleSystemThemeChange(e) {
+    /* ------------------------------ 系统主题监听 ------------------------------ */
+
+    // 系统主题变化（仅 AUTO 生效）
+    const handleSystemThemeChange = () => {
       if (theme.value === ThemeMode.AUTO) {
-        const effectiveTheme = e.matches ? ThemeMode.DARK : ThemeMode.LIGHT
-        toggleDarkMode(effectiveTheme === ThemeMode.DARK)
-        const colors = generateThemeColors(themeColor.value, effectiveTheme)
-        applyTheme(colors)
+        applyCurrentTheme()
       }
     }
 
     if (prefersDarkMedia) {
-      // 兼容旧浏览器和新浏览器的监听方式
       if (typeof prefersDarkMedia.addEventListener === 'function') {
         prefersDarkMedia.addEventListener('change', handleSystemThemeChange)
       } else if (typeof prefersDarkMedia.addListener === 'function') {
@@ -64,43 +76,39 @@ export const useSettingsStore = defineStore(
       }
     }
 
-    // 监听主题变化，自动应用样式
-    watch(
-      [theme, themeColor],
-      ([newTheme, newThemeColor]) => {
-        // 计算实际生效的主题：若为 AUTO 则使用系统当前偏好
-        const effectiveTheme = newTheme === ThemeMode.AUTO ? getSystemTheme() : newTheme
+    /* ---------------------------------- 监听 ---------------------------------- */
 
-        toggleDarkMode(effectiveTheme === ThemeMode.DARK)
-        const colors = generateThemeColors(newThemeColor, effectiveTheme)
-        applyTheme(colors)
+    // 主题 / 主题色变化
+    watch([theme, themeColor], applyCurrentTheme, { immediate: true })
+
+    // 侧边栏配色变化
+    watch(
+      sidebarColorScheme,
+      (val) => {
+        toggleSidebarColor(val === SidebarColor.CLASSIC_BLUE)
       },
       { immediate: true }
     )
 
-    // 监听侧边栏配色变化
-    watch(
-      [sidebarColorScheme],
-      ([newSidebarColorScheme]) => {
-        toggleSidebarColor(newSidebarColorScheme === SidebarColor.CLASSIC_BLUE)
-      },
-      { immediate: true }
-    )
+    /* -------------------------------- 对外方法 -------------------------------- */
 
-    // 主题更新方法
+    // 更新主题
     const updateTheme = (newTheme) => {
       theme.value = newTheme
     }
 
+    // 更新主题色
     const updateThemeColor = (newColor) => {
       themeColor.value = newColor
     }
 
+    // 更新侧边栏配色
     const updateSidebarColorScheme = (newScheme) => {
       sidebarColorScheme.value = newScheme
     }
 
-    // 设置面板控制
+    /* ------------------------------ 面板控制 ------------------------------ */
+
     const toggleSettingsPanel = () => {
       settingsVisible.value = !settingsVisible.value
     }
@@ -113,7 +121,8 @@ export const useSettingsStore = defineStore(
       settingsVisible.value = false
     }
 
-    // 重置配置
+    /* -------------------------------- 重置配置 -------------------------------- */
+
     const resetSettings = () => {
       theme.value = defaultSettings.theme
       themeColor.value = defaultSettings.themeColor
@@ -122,6 +131,8 @@ export const useSettingsStore = defineStore(
       showWatermark.value = defaultSettings.showWatermark
       sidebarColorScheme.value = defaultSettings.sidebarColorScheme
     }
+
+    /* ---------------------------------- 导出 ---------------------------------- */
 
     return {
       // 状态
@@ -143,7 +154,7 @@ export const useSettingsStore = defineStore(
       showSettingsPanel,
       hideSettingsPanel,
 
-      // 重置功能
+      // 重置
       resetSettings
     }
   },
