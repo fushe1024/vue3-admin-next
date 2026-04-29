@@ -3,9 +3,11 @@ import { computed } from 'vue'
 import { useSettingsStore } from '@/store'
 import variables from '@/styles/variables.module.scss'
 
+const settingsStore = useSettingsStore()
+
 // 主体内容区域高度
 const appMainHeight = computed(() => {
-  if (useSettingsStore().showTagsView) {
+  if (settingsStore.showTagsView) {
     return `calc(100vh - ${variables['navbar-height']} - ${variables['tags-view-height']})`
   } else {
     return `calc(100vh - ${variables['navbar-height']})`
